@@ -1,0 +1,415 @@
+/* Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background: radial-gradient(circle at top, #1d2a3d, #020303);
+    color: #e0e0e0;
+    line-height: 1.6;
+}
+
+/* Ensure nav bar consistency across all pages */
+nav {
+    background: rgba(0, 0, 0, 0.8) !important;
+    backdrop-filter: blur(10px) !important;
+    padding: 1rem;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+}
+
+nav a {
+    color: #fff !important;
+    text-decoration: none;
+    font-weight: 300;
+    transition: color 0.3s;
+}
+
+nav a:hover {
+    color: #4CAF50 !important;
+}
+
+/* Profile Section */
+.profile {
+    text-align: center;
+    padding: 4rem 1rem;
+}
+
+.profile-img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin-bottom: 1rem;
+    border: 3px solid #4CAF50;
+}
+
+.subtitle {
+    color: #888;
+    margin-bottom: 1rem;
+}
+
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    font-size: 1.5rem;
+}
+
+.social-links a {
+    color: #e0e0e0;
+    transition: color 0.3s;
+}
+
+.social-links a:hover {
+    color: #4CAF50;
+}
+
+/* Content Sections */
+.content-section {
+    padding: 2rem 10%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+h2 {
+    color: #4CAF50;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid #4CAF50;
+    display: inline-block;
+    padding-bottom: 0.5rem;
+}
+
+/* Skills Grid */
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+/* Updated Skills Grid Styling */
+.skill-card h3 {
+    color: #4CAF50;
+    margin-bottom: 0.8rem;
+    font-size: 1.1rem;
+}
+
+.skill-card ul {
+    list-style: none;
+    padding-left: 0;
+    text-align: left;
+}
+
+.skill-card li {
+    margin-bottom: 0.4rem;
+    font-size: 0.95rem;
+    color: #ccc;
+}
+
+.skill-card {
+    padding: 1.5rem;
+    text-align: left;
+}
+
+.skill-card:hover {
+    transform: translateY(-5px);
+}
+
+/* Project Cards */
+.project-grid, .activity-grid, .qualifications {
+    display: grid;
+    gap: 1.5rem;
+}
+
+.project-card, .activity-card, .qualification-card {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1.5rem;
+    border-radius: 10px;
+}
+
+.rounded-button {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background: #4CAF50;
+    color: #fff;
+    border-radius: 20px;
+    text-decoration: none;
+    margin: 0.5rem 0.5rem 0 0;
+    font-size: 0.9rem;
+}
+
+.rounded-button:hover {
+    background: #45a049;
+}
+
+/* Updated Project Card Styling */
+.project-card h3 {
+    color: #4CAF50;
+    margin-bottom: 0.5rem;
+    font-size: 1.2rem;
+}
+
+.institution {
+    color: #888;
+    font-size: 0.95rem;
+    margin-bottom: 0.8rem;
+}
+
+.project-details {
+    margin: 1rem 0;
+}
+
+.duration {
+    font-weight: 300;
+    font-size: 0.9rem;
+    color: #ccc;
+}
+
+.guide {
+    font-style: italic;
+    font-size: 0.9rem;
+    color: #aaa;
+    margin-top: 0.5rem;
+}
+
+.project-links {
+    margin-top: 1rem;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding-top: 1rem;
+}
+
+/* Academic Qualifications Styling */
+.qualification-card {
+    background: rgba(255,255,255,0.1);
+    padding: 1.5rem;
+    border-radius: 10px;
+    margin-bottom: 1.5rem;
+}
+
+.scores-btn {
+    background: #4CAF50;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: background 0.3s;
+}
+
+.scores-btn:hover {
+    background: #45a049;
+}
+
+.academic-scores {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+    background: rgba(0,0,0,0.2);
+    border-radius: 8px;
+    margin-top: 1rem;
+}
+
+.academic-scores.show {
+    max-height: 1000px; /* Adjust based on content */
+    padding: 1rem;
+}
+
+.score-item {
+    margin-bottom: 1.5rem;
+}
+
+.score-item h4 {
+    color: #4CAF50;
+    margin-bottom: 0.5rem;
+}
+
+/* Semester Toggle Styling */
+.semester-header {
+    background: rgba(76, 175, 80, 0.2);
+    padding: 0.8rem;
+    border-radius: 6px;
+    margin: 0.5rem 0;
+    cursor: pointer;
+    transition: background 0.3s;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.semester-header:hover {
+    background: rgba(76, 175, 80, 0.3);
+}
+
+.semester-header::after {
+    content: '▼';
+    font-size: 0.9rem;
+    color: #4CAF50;
+}
+
+.semester-header.active::after {
+    content: '▲';
+}
+
+.semester-details {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+    padding-left: 1rem;
+}
+
+/* Compact Table Styling */
+.grades-table {
+    width: 100%;
+    margin: 0.5rem 0;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+.grades-table th,
+.grades-table td {
+    padding: 0.3rem 0.5rem;
+    text-align: left;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    line-height: 1.3;
+}
+
+.grades-table th {
+    padding: 0.5rem 0.5rem;
+    font-weight: 500;
+}
+
+/* Extracurricular Styling */
+.role-duration {
+    color: #888;
+    font-size: 0.95rem;
+    margin: -0.5rem 0 1rem 0;
+}
+
+/* Club Toggle Styling */
+/* Updated Club Toggle Styling */
+.toggle-header h3 {
+    color: #4CAF50;
+    margin: 0 0.5rem;
+    position: relative;
+    padding-right: 1.5rem; /* Space for arrow */
+}
+
+.toggle-header h3::after {
+    content: '▼';
+    position: absolute;
+    right: 0;
+    font-size: 0.9em;
+    transition: transform 0.3s;
+}
+
+.toggle-header.active h3::after {
+    content: '▲';
+    right: 0;
+}
+
+/* Add this to ensure proper alignment */
+.toggle-header {
+    position: relative;
+}
+
+.toggle-header:hover {
+    background: rgba(76, 175, 80, 0.1);
+    border-radius: 5px;
+}
+
+.club-details {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+    padding-left: 1rem;
+}
+
+.presentations-list {
+    margin-top: 1.5rem;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding-top: 1.5rem;
+}
+
+.presentation-ol {
+    list-style: none;
+    counter-reset: presentation-counter;
+    padding-left: 1.5rem;
+}
+
+.presentation-ol li {
+    counter-increment: presentation-counter;
+    margin-bottom: 1.5rem;
+    position: relative;
+    padding-left: 2rem;
+}
+
+.presentation-ol li::before {
+    content: counter(presentation-counter);
+    position: absolute;
+    left: 0;
+    color: #4CAF50;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.presentation-title {
+    color: #4CAF50;
+    font-weight: 500;
+}
+
+.presentation-date {
+    float: right;
+    color: #888;
+    font-size: 0.9rem;
+}
+
+.presentation-ol em {
+    color: #aaa;
+    font-size: 0.9rem;
+    display: block;
+    margin: 0.3rem 0;
+}
+
+/* Add this to your styles.css */
+.presentation-ol li em + span {
+    display: block;
+    margin-top: 0.3rem; /* Reduced spacing */
+    color: #ccc;
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+/* Contact Section */
+.contact-section {
+    text-align: center;
+    padding: 3rem 10%;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .content-section {
+        padding: 2rem 5%;
+    }
+}
+/* Updated Contact Section Styling */
+.contact-section a {
+    color: #4CAF50; /* Matching the accent green */
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.contact-section a:hover {
+    color: #66BB6A; /* Lighter green for hover */
+    text-decoration: underline;
+}

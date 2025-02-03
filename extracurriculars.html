@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Same head as index.html -->
+    <title>Sandipan Samanta | Extracurriculars</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js"></script>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="projects.html">Projects</a></li>
+            <li><a href="extracurriculars.html">Extracurriculars</a></li>
+        </ul>
+    </nav>
+
+    <section class="content-section">
+        <h2>Clubs</h2>
+        <!-- Updated Extracurriculars Section -->
+        <div class="activity-card">
+            <div class="toggle-header" onclick="toggleClubDetails(this)">
+                <h3>MathematiX Club, NISER</h3>
+            </div>
+            <div class="club-details">
+                <br><p class="role-duration">Member since Mar 2022<br><strong>Club Head (Jan 2023 - Mar 2024)</strong></p>
+
+                <div class="presentations-list">
+                    <h4>Presentations/Talks Delivered:</h4>
+                    <ol class="presentation-ol">
+                        <!-- Reverse order (most recent first) -->
+                        <li>
+                            <span class="presentation-title">Chop me if you can!</span>
+                            <span class="presentation-date">Jan 11, 2025</span><br>
+                            <em>Short Undergraduate Mathematics Seminar (SUMS) 123<br>(Jointly with Aaditya Vicram Saraf)</em>
+                            <span><strong>Abstract: </strong>The talk delves into a problem of chopping a regular n-gon into k many regular n-gons. The main problem would be to find all possible values of k for a given n such that we can chop the n - gon into k many regular n - gons. This is a generalization of the problem of dividing a square into k smaller squares (where instead of answering the problem just for squares, we answer it for any n sided regular polygon).</span>
+                        </li>
+                        <li>
+                            <span class="presentation-title">Exploring the Hardy-Littlewood Maximal Function and the Hilbert Transform</span>
+                            <span class="presentation-date">Nov 2, 2024</span><br>
+                            <em>Student Research Seminar (SRS) 39</em>
+                            <span><strong>Abstract: </strong>In this talk, we'll explore some interesting results in real and harmonic analysis, starting with the Hardy-Littlewood Maximal Operator. This operator helps in understanding the behaviour of the average and maximal operators of a function. We'll look at the Hardy-Littlewood Maximal Inequality and understand its proof using a method with dyadic cubes and interpolation of operators. Then, using this inequality and a few other results, we'll prove the Lebesgue Differentiation Theorem, which basically tells how to recover a function from its averages. Along the way, we'll briefly detour into Calderón-Zygmund Decomposition - a technique that breaks down functions into "good" and "bad" parts. Finally, we'll dive into the Hilbert transform and its behaviour using results by Riesz and Kolmogorov.
+                            </span>
+                        </li>
+                        <li>
+                            <span class="presentation-title">Fundamental Theorems of Optimization</span>
+                            <span class="presentation-date">Apr 6, 2024</span><br>
+                            <em>Student Research Seminar (SRS) 35</em>
+                            <span><strong>Abstract: </strong>This talk explores the fundamental theorems of optimization in normed spaces, with a focus on the powerful Euler-Lagrange equation. After establishing the groundwork of continuity, differentiability, and optimization conditions in normed spaces, we'll discuss the derivation and application of the Euler-Lagrange equation for constrained optimization problems.<br>A key highlight is the solution to the famous brachistochrone problem, which seeks the shape of the curve that minimizes the time taken by a particle to slide from one point to another under the influence of gravity. By applying the Euler-Lagrange equation, the optimal curve (the brachistochrone) is derived, demonstrating the practical relevance of these optimization techniques.</span>
+                        </li>
+                        <li>
+                            <span class="presentation-title">Why do we like primes?</span>
+                            <span class="presentation-date">Feb 3, 2023</span><br>
+                            <em>Student Undergraduate Mathematics Seminar (SUMS) 118<br>(Jointly with Aaditya Vicram Saraf)</em>
+                            <span><strong>Abstract: </strong>In this talk, we will cover what is a twin prime and some interesting results. We prove that the digital root of the product of any twin primes is always 8. We introduce Euler totient function and sigma function (sum of divisors), which reveal another beautiful result about twin primes.<br>Finally, we conclude by talking about how often primes occur as we move further along the number line and that there are approximately n/logn primes less than n (no proof).</span>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+            <hr style="opacity: 0.5;">
+            <div class="toggle-header" onclick="toggleClubDetails(this)">
+                <h3>Robotech Club, NISER</h3>
+            </div>
+            <div class="club-details">
+                <br><p class="role-duration">Member since Jun 2023</p>
+
+                <div class="presentations-list">
+                    <h4>Projects and activities:</h4>
+                    <ol class="presentation-ol">
+                        <!-- Reverse order (most recent first) -->
+                        <li>
+                            <span class="presentation-title">DoorDarshan</span>
+                            <em>IoT Project</em>
+                            <span><strong>DoorDarshan</strong> is a remote access control system that allows members of the RoboTech Club at NISER to remotely lock and unlock the door to the club's lab using Discord chat commands. It uses a Raspberry Pi computer interfaced with an electronic door lock and custom Discord bot software to provide secure keyless entry. Authorized club members who have access to the DoorDarshan Discord channel can issue simple textual commands to toggle the state of the lock without needing physical keys. Additionally, a display screen positioned outside the lab door connects to the Raspberry Pi to showcase important club announcements, including upcoming events, authorized lab access lists, weather and time information. This project was conceived to enhance security and convenience of lab access. It also served as a hands-on IoT and robotics learning experience involving hardware integration, embedded programming, and software development. Overally, DoorDarshan demonstrates an automation solution for secure remote access control and management.</span>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+
+            <hr style="opacity: 0.5;">
+            <div class="toggle-header" onclick="toggleClubDetails(this)">
+                <h3>Coding Club, NISER</h3>
+            </div>
+            <div class="club-details">
+                <br><p class="role-duration">Member since Oct 2024</p>
+            </div>
+
+            <hr style="opacity: 0.5;">
+            <div class="toggle-header" onclick="toggleClubDetails(this)">
+                <h3>Astronomy Club, NISER</h3>
+            </div>
+            <div class="club-details">
+                <br><p class="role-duration">Member since Oct 2024</p>
+            </div>
+
+        </div>
+        <br>
+        <h2>Volunteering</h2>
+
+        <div class="activity-card">
+            <div class="toggle-header" onclick="toggleClubDetails(this)">
+                <h3>NISER Open Day 2023</h3>
+            </div>
+
+            <hr style="opacity: 0.5;">
+            <div class="toggle-header" onclick="toggleClubDetails(this)">
+                <h3>Pi Day 2023</h3>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
