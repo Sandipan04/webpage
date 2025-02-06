@@ -414,39 +414,96 @@ h2 {
     text-decoration: underline;
 }
 
-/* Chess Stats Grid */
-.chess-stats-grid {
+/* Chess Section Styling */
+.chess-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  
+  .chess-profile {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+  
+  .chess-name {
+    color: #4CAF50 !important;
+    text-decoration: none;
+    font-size: 1.2rem;
+    transition: opacity 0.3s;
+  }
+  
+  .chess-name:hover {
+    opacity: 0.8;
+    text-decoration: underline;
+  }
+  
+  .toggle-stats {
+    background: rgba(76, 175, 80, 0.2);
+    border: 1px solid #4CAF50;
+    color: #4CAF50;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  
+  .toggle-stats:hover {
+    background: #4CAF50;
+    color: #fff;
+  }
+  
+  .hidden {
+    display: none;
+  }
+  
+  #chess-stats-container {
+    margin-top: 1rem;
+    animation: fadeIn 0.3s ease;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+.chess-stats-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+  }
+  
+  .stats-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 1.5rem;
     margin-top: 1.5rem;
   }
   
-  .chess-mode-card {
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 10px;
+  .stat-card {
+    background: linear-gradient(145deg, rgba(40, 40, 40, 0.9), rgba(30, 30, 30, 0.9));
+    border-radius: 12px;
     padding: 1.5rem;
     border: 1px solid rgba(76, 175, 80, 0.2);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease;
   }
   
-  .chess-mode-card:hover {
-    transform: translateY(-3px);
+  .stat-card:hover {
+    transform: translateY(-5px);
   }
   
-  .chess-mode-title {
+  .stat-card h3 {
     color: #4CAF50;
     margin-bottom: 1rem;
-    font-size: 1.1rem;
-    font-weight: 600;
+    border-bottom: 2px solid rgba(76, 175, 80, 0.3);
+    padding-bottom: 0.5rem;
   }
   
   .stat-item {
+    margin: 0.8rem 0;
     display: flex;
     justify-content: space-between;
-    margin: 0.8rem 0;
-    padding: 0.3rem 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   }
   
   .stat-label {
@@ -456,6 +513,27 @@ h2 {
   
   .stat-value {
     color: #e0e0e0;
-    font-weight: 500;
     font-family: 'Courier New', monospace;
+  }
+  
+  .loading-spinner {
+    display: inline-block;
+    width: 2rem;
+    height: 2rem;
+    border: 3px solid rgba(76, 175, 80, 0.3);
+    border-radius: 50%;
+    border-top-color: #4CAF50;
+    animation: spin 1s ease-in-out infinite;
+  }
+  
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+  
+  .error-message {
+    color: #ff4444;
+    padding: 1rem;
+    border: 1px solid #ff4444;
+    border-radius: 8px;
+    text-align: center;
   }

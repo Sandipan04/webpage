@@ -111,11 +111,23 @@
             </div>
         </div>
     </section>
-    
-    <!-- Add this where you want the chess stats -->
+
+    <!-- Add this to your HTML -->
     <section class="content-section">
-        <h2>Chess Statistics</h2>
-        <div id="chess-stats" class="chess-stats-grid"></div>
+        <div class="chess-header">
+        <h2>Chess</h2>
+        <div class="chess-profile">
+            <a href="https://www.chess.com/member/RogFury" target="_blank" class="chess-name">
+            RogFury
+            </a>
+            <button class="toggle-stats" onclick="toggleChessStats()">Show Stats</button>
+        </div>
+        </div>
+        <div id="chess-stats-container" class="hidden">
+        <div id="chess-stats">
+            <div class="loading-spinner"></div>
+        </div>
+        </div>
     </section>
 </body>
 </html>

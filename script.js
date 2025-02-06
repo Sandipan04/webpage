@@ -18,76 +18,74 @@ function toggleClubDetails(header) {
     details.style.maxHeight = details.style.maxHeight ? null : `${details.scrollHeight}px`;
 }
 
-// chessStats.js
-document.addEventListener('DOMContentLoaded', () => {
-    const MODE_MAP = {
-      tactics: { name: 'Puzzles', icon: '🧩' },
-      chess: { name: 'Daily', icon: '📅' },
-      rapid: { name: 'Rapid', icon: '⏱️' },
-      lightning: { name: 'Blitz', icon: '⚡' },
-      bullet: { name: 'Bullet', icon: '🔫' },
-      tactics_challenge: { name: 'Puzzle Challenge', icon: '🏆' }
-    };
+let statsLoaded = false;
+
+async function toggleChessStats() {
+  const container = document.getElementById('chess-stats-container');
+  const button = document.querySelector('.toggle-stats');
   
-    async function fetchChessStats() {
-      try {
-        const response = await fetch(`https://www.chess.com/callback/member/stats/RogFury`);
-        if (!response.ok) throw new Error('Network response was not ok');
-        return await response.json();
-      } catch (error) {
-        console.error('Error fetching chess stats:', error);
-        return null;
-      }
+  if (container.classList.contains('hidden')) {
+    if (!statsLoaded) {
+      await loadChessStats();
+      statsLoaded = true;
     }
-  
-    function createStatItem(label, value) {
-      const div = document.createElement('div');
-      div.className = 'stat-item';
-      div.innerHTML = `
-        <span class="stat-label">${label}</span>
-        <span class="stat-value">${value}</span>
-      `;
-      return div;
-    }
-  
-    function renderChessStats(data) {
-      const container = document.getElementById('chess-stats');
-      if (!data || !data.stats) {
-        container.innerHTML = '<p>Chess statistics currently unavailable</p>';
-        return;
-      }
-  
-      container.innerHTML = '';
-      Object.entries(MODE_MAP).forEach(([key, mode]) => {
-        const stats = data.stats[key];
-        if (!stats) return;
-  
-        const card = document.createElement('div');
-        card.className = 'chess-mode-card';
-        
-        card.innerHTML = `
-          <div class="chess-mode-title">
-            ${mode.icon} ${mode.name}
+    container.classList.remove('hidden');
+    button.textContent = 'Hide Stats';
+  } else {
+    container.classList.add('hidden');
+    button.textContent = 'Show Stats';
+  }
+}
+
+async function loadChessStats() {
+  try {
+    const proxy = 'https://api.allorigins.win/raw?url=';
+    const response = await fetch(proxy + encodeURIComponent('https://api.chess.com/pub/player/RogFury/stats'));
+    
+    if (!response.ok) throw new Error('Failed to fetch stats');
+    const data = await response.json();
+
+    document.getElementById('chess-stats').innerHTML = `
+      <div class="stats-grid">
+        ${['rapid', 'blitz'].map(mode => {
+          const record = data[`chess_${mode}`]?.record;
+          const totalGames = record ? record.win + record.loss + record.draw : 0;
+          return createStatCard(mode.charAt(0).toUpperCase() + mode.slice(1), [
+            ['Current Rating', data[`chess_${mode}`]?.last?.rating || 'N/A'],
+            ['Win %', record ? `${((record.win / totalGames) * 100).toFixed(1)}%` : 'N/A'],
+            ['Loss %', record ? `${((record.loss / totalGames) * 100).toFixed(1)}%` : 'N/A'],
+            ['Total Games', totalGames || 'N/A']
+          ]);
+        }).join('')}
+        ${createStatCard('Puzzles', [
+            ['Highest Rating', data.tactics?.highest?.rating || 'N/A'],
+            ['Current Rating', data.tactics?.last?.rating || 'N/A']
+          ])}
+      </div>
+    `;
+  } catch (error) {
+    document.getElementById('chess-stats').innerHTML = `
+      <div class="error-message">
+        ${error.message}<br>
+        <button onclick="loadChessStats()" class="retry-btn">
+          Retry
+        </button>
+      </div>
+    `;
+  }
+}
+
+  // Keep the existing createStatCard function
+  function createStatCard(title, items) {
+    return `
+      <div class="stat-card">
+        <h3>${title}</h3>
+        ${items.map(([label, value]) => `
+          <div class="stat-item">
+            <span class="stat-label">${label}</span>
+            <span class="stat-value">${value}</span>
           </div>
-        `;
-  
-        if (stats.highest) {
-          card.appendChild(createStatItem('Peak Rating', stats.highest.rating));
-        }
-        
-        card.appendChild(createStatItem('Current Rating', stats.last?.rating || 'N/A'));
-        
-        if (stats.record) {
-          const totalGames = stats.record.win + stats.record.loss + stats.record.draw;
-          card.appendChild(createStatItem('Total Games', totalGames));
-          card.appendChild(createStatItem('Win Rate', 
-            `${Math.round((stats.record.win / totalGames) * 100)}%`));
-        }
-  
-        container.appendChild(card);
-      });
-    }
-  
-    // Initialize
-    fetchChessStats().then(renderChessStats);
-  });
+        `).join('')}
+      </div>
+    `;
+  }
