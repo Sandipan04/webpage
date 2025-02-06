@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
     async function fetchChessStats() {
       try {
-        const response = await fetch(`https://cors-anywhere.herokuapp.com/https://www.chess.com/callback/member/stats/RogFury`);
+        const response = await fetch(`https://www.chess.com/callback/member/stats/RogFury`);
         if (!response.ok) throw new Error('Network response was not ok');
         return await response.json();
       } catch (error) {
