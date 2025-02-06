@@ -413,3 +413,49 @@ h2 {
     color: #66BB6A; /* Lighter green for hover */
     text-decoration: underline;
 }
+
+/* Chess Stats Grid */
+.chess-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+  }
+  
+  .chess-mode-card {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    padding: 1.5rem;
+    border: 1px solid rgba(76, 175, 80, 0.2);
+    transition: transform 0.3s ease;
+  }
+  
+  .chess-mode-card:hover {
+    transform: translateY(-3px);
+  }
+  
+  .chess-mode-title {
+    color: #4CAF50;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+  
+  .stat-item {
+    display: flex;
+    justify-content: space-between;
+    margin: 0.8rem 0;
+    padding: 0.3rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+  
+  .stat-label {
+    color: #888;
+    font-size: 0.9rem;
+  }
+  
+  .stat-value {
+    color: #e0e0e0;
+    font-weight: 500;
+    font-family: 'Courier New', monospace;
+  }
