@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chess.com Stats</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1rem;
+    }
+    .stat-card {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 1rem;
+      border-radius: 8px;
+      text-align: center;
+    }
+    .stat-card h3 {
+      margin-bottom: 0.5rem;
+      color: #4CAF50;
+    }
+  </style>
+</head>
+<body>
+  <section class="content-section">
+    <h2>Chess.com Stats</h2>
+    <div id="chess-stats">
+      <p>Loading stats...</p>
+    </div>
+  </section>
+
+  <script>
+    async function fetchChessStats() {
+      try {
+        // Using the official API endpoint
+        const response = await fetch('https://api.chess.com/pub/player/RogFury/stats');
+        const data = await response.json();
+        
+        const statsHTML = `
+          <div class="stats-grid">
+            <div class="stat-card"><h3>Puzzles</h3><p>Rating: ${data.tactics.rating}</p></div>
+            <div class="stat-card"><h3>Daily</h3><p>Rating: ${data.chess.rating}</p></div>
+            <div class="stat-card"><h3>Rapid</h3><p>Rating: ${data.rapid.rating}</p></div>
+            <div class="stat-card"><h3>Blitz</h3><p>Rating: ${data.lightning.rating}</p></div>
+            <div class="stat-card"><h3>Bullet</h3><p>Rating: ${data.bullet.rating}</p></div>
+            <div class="stat-card"><h3>Puzzle Challenge</h3><p>Rating: ${data.tactics_challenge.rating}</p></div>
+          </div>
+        `;
+        
+        document.getElementById("chess-stats").innerHTML = statsHTML;
+      } catch (error) {
+        document.getElementById("chess-stats").innerHTML = "<p>Failed to load stats.</p>";
+        console.error("Error fetching Chess.com stats:", error);
+      }
+    }
+
+    fetchChessStats();
+  </script>
+</body>
+</html>
