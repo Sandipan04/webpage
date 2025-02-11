@@ -23,21 +23,35 @@ let statsLoaded = false;
 async function toggleChessStats() {
   const container = document.getElementById('chess-stats-container');
   const button = document.querySelector('.toggle-stats');
+  const loadingSpinner = document.querySelector('.loading-spinner');
   
   if (container.classList.contains('hidden')) {
-    if (!statsLoaded) {
-      await loadChessStats();
-      statsLoaded = true;
-    }
-    container.classList.remove('hidden');
-    button.textContent = 'Hide Stats';
+      loadingSpinner.style.display = 'inline-block'; // Show spinner
+      
+      try {
+          if (!statsLoaded) {
+              await loadChessStats();
+              statsLoaded = true;
+          }
+          container.classList.remove('hidden');
+          button.textContent = 'Hide Stats';
+      } catch (error) {
+          // Handle any errors
+          console.error('Error:', error);
+      } finally {
+          loadingSpinner.style.display = 'none'; // Hide spinner regardless of success or failure
+      }
   } else {
-    container.classList.add('hidden');
-    button.textContent = 'Show Stats';
+      container.classList.add('hidden');
+      button.textContent = 'Show Stats';
   }
 }
 
+
+// Chess stats
 async function loadChessStats() {
+  const loadingSpinner = document.querySelector('.loading-spinner');
+    
   try {
     const proxy = 'https://api.allorigins.win/raw?url=';
     const response = await fetch(proxy + encodeURIComponent('https://api.chess.com/pub/player/RogFury/stats'));
@@ -72,6 +86,8 @@ async function loadChessStats() {
         </button>
       </div>
     `;
+  } finally {
+    loadingSpinner.style.display = 'none'; // Always hide the spinner
   }
 }
 
@@ -89,3 +105,36 @@ async function loadChessStats() {
       </div>
     `;
   }
+
+// Dynamic Background
+document.addEventListener('DOMContentLoaded', () => {
+  let x = 0;
+  let y = 0;
+  const radius = Math.sqrt(window.innerWidth ** 2 + window.innerHeight ** 2) * 0.5;
+  let angle = 0;
+  
+  function updateGradient() {
+      const progress = (angle / 360) % 1;
+      const x = window.innerWidth * 0.5 + radius * Math.cos(angle * Math.PI / 180);
+      const y = window.innerHeight * 0.5 + radius * Math.sin(angle * Math.PI / 180);
+      
+      document.body.style.background = `
+          radial-gradient(
+              circle at ${x}px ${y}px,
+              #1d2a3d 0%, 
+              #020303 100%
+          )
+      `;
+      
+      angle += 0.5;
+      requestAnimationFrame(updateGradient);
+  }
+
+  // Start the animation
+  updateGradient();
+
+  // Handle window resize
+  window.addEventListener('resize', () => {
+      radius = Math.sqrt(window.innerWidth ** 2 + window.innerHeight ** 2) * 0.5;
+  });
+});
