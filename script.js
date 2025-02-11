@@ -26,7 +26,8 @@ async function toggleChessStats() {
   const loadingSpinner = document.querySelector('.loading-spinner');
   
   if (container.classList.contains('hidden')) {
-      loadingSpinner.style.display = 'inline-block'; // Show spinner
+      // Show spinner before fetching data
+      loadingSpinner.style.opacity = '1';
       
       try {
           if (!statsLoaded) {
@@ -35,17 +36,19 @@ async function toggleChessStats() {
           }
           container.classList.remove('hidden');
           button.textContent = 'Hide Stats';
+          
+          // Hide spinner after data loads
+          loadingSpinner.style.opacity = '0';
       } catch (error) {
-          // Handle any errors
           console.error('Error:', error);
-      } finally {
-          loadingSpinner.style.display = 'none'; // Hide spinner regardless of success or failure
+          loadingSpinner.style.opacity = '0';
       }
   } else {
       container.classList.add('hidden');
       button.textContent = 'Show Stats';
   }
 }
+
 
 
 // Chess stats
