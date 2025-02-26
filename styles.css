@@ -41,6 +41,21 @@ nav a:hover {
     color: #4CAF50 !important;
 }
 
+@media (max-width: 600px) {
+    nav {
+        padding: 0.3rem 0.5rem;
+    }
+    nav ul {
+        gap: 0.5rem;
+        justify-content: space-around;
+    }
+    nav a {
+        font-size: 0.9rem;
+        padding: 0.3rem;
+    }
+}
+  
+
 /* Profile Section */
 .profile {
     text-align: center;

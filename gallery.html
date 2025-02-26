@@ -4,7 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Gallery - Sandipan Samanta</title>
+  <script src="script.js"></script>
   <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
   <style>
     /* Additional gallery-specific styles to complement your existing theme */
     .gallery-container {
@@ -64,15 +66,15 @@
   </style>
 </head>
 <body>
-  <!-- Navigation Bar (reuse from index.html) -->
-  <nav>
-    <ul>
-      <li><a href="index.html">Home</a></li>
-      <li><a href="academics.html">Academics</a></li>
-      <li><a href="extracurriculars.html">Extracurriculars</a></li>
-      <li><a href="gallery.html">Gallery</a></li>
-    </ul>
-  </nav>
+    <!-- Navigation Bar (reuse from index.html) -->
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="academics.html">Academics</a></li>
+            <li><a href="extracurriculars.html">Extracurriculars</a></li>
+            <li><a href="gallery.html">Gallery</a></li>
+        </ul>
+    </nav>
 
   <!-- Gallery Section -->
   <section class="content-section">
@@ -101,9 +103,16 @@
           const slideshow = document.createElement('div');
           slideshow.className = 'slideshow';
 
-          // Create image element (start with the first image)
+          // Preload images into a cache array
+          const imageCache = item.images.map(src => {
+            const imgObj = new Image();
+            imgObj.src = src;
+            return imgObj;
+          });
+
+          // Create the image element (start with the first preloaded image)
           const img = document.createElement('img');
-          img.src = item.images[0];
+          img.src = imageCache[0].src;
           slideshow.appendChild(img);
 
           // Create navigation arrows
@@ -126,17 +135,18 @@
 
           galleryContainer.appendChild(galleryItem);
 
-          // Slideshow functionality
+          // Slideshow functionality with caching
           let currentIndex = 0;
           let intervalId;
 
           function showImage(index) {
-            img.src = item.images[index];
+            // Use the preloaded image's src for fast display
+            img.src = imageCache[index].src;
           }
 
           function startSlideshow() {
             intervalId = setInterval(() => {
-              currentIndex = (currentIndex + 1) % item.images.length;
+              currentIndex = (currentIndex + 1) % imageCache.length;
               showImage(currentIndex);
             }, 3000); // Change image every 3 seconds
           }
@@ -151,20 +161,21 @@
           slideshow.addEventListener('mouseenter', stopSlideshow);
           slideshow.addEventListener('mouseleave', startSlideshow);
 
-          // Manual navigation
+          // Manual navigation using preloaded images
           leftArrow.addEventListener('click', (e) => {
             e.stopPropagation();
             stopSlideshow();
-            currentIndex = (currentIndex - 1 + item.images.length) % item.images.length;
+            currentIndex = (currentIndex - 1 + imageCache.length) % imageCache.length;
             showImage(currentIndex);
           });
           rightArrow.addEventListener('click', (e) => {
             e.stopPropagation();
             stopSlideshow();
-            currentIndex = (currentIndex + 1) % item.images.length;
+            currentIndex = (currentIndex + 1) % imageCache.length;
             showImage(currentIndex);
           });
         });
+
       })
       .catch(error => {
         document.getElementById('gallery').innerHTML = '<p>Failed to load gallery data.</p>';
