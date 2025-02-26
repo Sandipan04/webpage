@@ -1,0 +1,12 @@
+{
+    "posts": [
+        {
+            "image": "images/gallery/astro1.jpg",
+            "caption": "My first astrophotography attempt - Orion Nebula"
+        },
+        {
+            "image": "images/gallery/chess1.jpg",
+            "caption": "Winning position in a blitz tournament"
+        }
+    ]
+}
