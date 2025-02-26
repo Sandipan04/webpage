@@ -1,0 +1,16 @@
+[
+    {
+        "images": ["images/freshers1.jpg", "images/freshers2.jpg", "images/freshers3.jpg", "images/freshers4.jpg", "images/freshers5.jpg", "images/freshers6.jpg", "images/freshers7.jpg", "images/freshers8.jpg", "images/freshers9.jpg", "images/freshers10.jpg", "images/freshers11.jpg", "images/freshers12.jpg", "images/freshers13.jpg", "images/freshers14.jpg", "images/freshers15.jpg", "images/freshers16.jpg"],
+        "caption": "SMS Freshers 2024"
+    },
+    {
+        "images": ["images/semtop2024.jpg"],
+        "caption": "Semester Toppers Batch 21 for the academic year 2023-24"
+    },
+    {
+      "images": ["images/image1.jpg", "images/image2.jpg", "images/image3.jpg", "images/image4.jpg", "images/image5.jpg", "images/image6.jpg", "images/image7.jpg"],
+      "caption": "Pi Day 2024"
+    }
+    
+  ]
+  
