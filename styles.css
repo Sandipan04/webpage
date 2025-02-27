@@ -287,7 +287,7 @@ h2 {
 
 .semester-details {
     max-height: 0;
-    overflow: hidden;
+    overflow: auto;
     transition: max-height 0.3s ease-out;
     padding-left: 1rem;
 }
