@@ -139,6 +139,8 @@ h2 {
 }
 
 .skill-card {
+    border: 1px dashed rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
     padding: 1.5rem;
     text-align: left;
 }
@@ -418,13 +420,23 @@ h2 {
     padding: 3rem 10%;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-    .content-section {
-        padding: 2rem 5%;
-    }
+/* New Flex Layout for Contact Items */
+.contact-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
 }
-/* Updated Contact Section Styling */
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1rem;
+}
+
+/* Updated Contact Section Styling for Links */
 .contact-section a {
     color: #4CAF50; /* Matching the accent green */
     text-decoration: none;
@@ -435,6 +447,17 @@ h2 {
     color: #66BB6A; /* Lighter green for hover */
     text-decoration: underline;
 }
+
+/* Responsive Adjustments */
+@media (max-width: 600px) {
+    .contact-list {
+        gap: 1rem;
+    }
+    .contact-item {
+        font-size: 0.9rem;
+    }
+}
+
 
 /* Chess Section Styling */
 .chess-header {
