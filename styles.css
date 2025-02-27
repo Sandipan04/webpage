@@ -237,7 +237,7 @@ h2 {
 
 .academic-scores {
     max-height: 0;
-    overflow: hidden;
+    overflow: auto;
     transition: max-height 0.3s ease-out;
     background: rgba(0,0,0,0.2);
     border-radius: 8px;
@@ -311,6 +311,17 @@ h2 {
 .grades-table th {
     padding: 0.5rem 0.5rem;
     font-weight: 500;
+}
+
+/* New alignment for columns */
+.grades-table th:first-child,
+.grades-table td:first-child {
+    text-align: left;
+}
+
+.grades-table th:last-child,
+.grades-table td:last-child {
+    text-align: right;
 }
 
 /* Extracurricular Styling */
