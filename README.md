@@ -76,6 +76,5 @@ Distributed under the MIT License. See [`LICENSE`](https://opensource.org/licens
 
 ## Acknowledgements
 - [GitHub Pages](https://pages.github.com/) for free hosting
-- [Chess.com](https://www.chess.com/) for their public API
 - [Font Awesome](https://fontawesome.com/) for icons
 - [Google Fonts](https://fonts.google.com) for typography
