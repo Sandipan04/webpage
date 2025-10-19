@@ -40,11 +40,6 @@ A modern, minimalistic personal portfolio website for a Mathematics student at N
    - Presentation Archives
    - Leadership Experience
 
-4. **Chess**
-   - Interactive stats toggle
-   - Real-time rating display
-   - Win/Loss percentage analysis
-
 ## Getting Started
 
 ### Prerequisites
