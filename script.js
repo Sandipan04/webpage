@@ -57,7 +57,7 @@ async function loadChessStats() {
     
   try {
     const proxy = 'https://api.allorigins.win/raw?url=';
-    const response = await fetch(proxy + encodeURIComponent('https://api.chess.com/pub/player/RogFury/stats'));
+    const response = await fetch(proxy + encodeURIComponent('https://api.chess.com/pub/player/Rog-Fury/stats'));
     
     if (!response.ok) throw new Error('Failed to fetch stats');
     const data = await response.json();
