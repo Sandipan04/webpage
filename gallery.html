@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Gallery | Sandipan Samanta</title>
+
+        <link
+            href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+            rel="stylesheet"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        />
+
+        <link rel="stylesheet" href="css/global.css" />
+        <link rel="stylesheet" href="css/gallery.css" />
+    </head>
+    <body>
+        <canvas id="network-canvas"></canvas>
+
+        <nav id="main-nav">
+            <div class="nav-brand">SS.</div>
+            <div class="menu-toggle" id="mobile-menu">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+            <div class="nav-links" id="nav-links"></div>
+        </nav>
+
+        <main class="container">
+            <div class="page-header animate-on-scroll">
+                <h1 class="page-title">Gallery</h1>
+                <p class="page-subtitle">
+                    Visual logs, deep sky captures, and event archives.
+                </p>
+            </div>
+
+            <!-- Gallery Grid -->
+            <section
+                id="gallery-grid"
+                class="gallery-grid animate-on-scroll"
+            ></section>
+        </main>
+
+        <script src="js/api.js"></script>
+        <script src="js/global.js"></script>
+        <script src="js/gallery.js"></script>
+    </body>
+</html>

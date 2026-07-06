@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Extracurriculars | Sandipan Samanta</title>
+
+        <link
+            href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+            rel="stylesheet"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        />
+
+        <link rel="stylesheet" href="css/global.css" />
+        <link rel="stylesheet" href="css/extracurriculars.css" />
+
+        <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+        <script
+            id="MathJax-script"
+            async
+            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+        ></script>
+    </head>
+    <body>
+        <canvas id="network-canvas"></canvas>
+
+        <nav id="main-nav">
+            <div class="nav-brand">SS.</div>
+            <div class="menu-toggle" id="mobile-menu">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+            <div class="nav-links" id="nav-links"></div>
+        </nav>
+
+        <main class="container">
+            <h1 class="page-title animate-on-scroll">Extracurriculars</h1>
+
+            <!-- Clubs & Organizations -->
+            <h2 class="section-title animate-on-scroll">
+                Clubs & Organizations
+            </h2>
+            <div id="clubs-container"></div>
+
+            <!-- Volunteering -->
+            <h2
+                class="section-title animate-on-scroll"
+                style="margin-top: 4rem"
+            >
+                Volunteering & Community
+            </h2>
+            <section
+                id="volunteering-grid"
+                class="activity-grid animate-on-scroll"
+            ></section>
+        </main>
+
+        <script src="js/api.js"></script>
+        <script src="js/global.js"></script>
+        <script src="js/extracurriculars.js"></script>
+    </body>
+</html>

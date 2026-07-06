@@ -1,0 +1,133 @@
+/* --- Page Specific Typography --- */
+.page-title {
+    font-size: clamp(2.5rem, 4vw, 3.5rem);
+    font-weight: 700;
+    margin-bottom: 3rem;
+    color: #fff;
+    border-bottom: 2px solid var(--card-border);
+    padding-bottom: 1rem;
+}
+
+.section-title {
+    font-size: 1.8rem;
+    color: var(--accent-cyan);
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+}
+
+/* --- Club Sections --- */
+.club-section {
+    margin-bottom: 4rem;
+}
+
+.club-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.club-header h3 {
+    font-size: 1.5rem;
+    color: #fff;
+    margin: 0;
+}
+
+.club-meta {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    display: flex;
+    gap: 1rem;
+}
+.club-meta .role {
+    color: var(--accent-cyan);
+    font-weight: 500;
+}
+
+@media (max-width: 600px) {
+    .club-header {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+}
+
+/* --- Grids --- */
+.activity-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1.5rem;
+}
+
+/* --- Activity Cards (Glassmorphism) --- */
+.activity-card {
+    display: flex;
+    flex-direction: column;
+}
+
+.activity-card h4 {
+    color: #fff;
+    font-size: 1.2rem;
+    margin-bottom: 0.3rem;
+}
+
+.activity-type-tag {
+    display: inline-block;
+    background: rgba(155, 81, 224, 0.15);
+    color: var(--accent-violet);
+    border: 1px solid rgba(155, 81, 224, 0.3);
+    padding: 0.2rem 0.8rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 1rem;
+}
+
+.activity-meta {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.activity-meta strong {
+    color: var(--accent-cyan);
+    font-weight: 500;
+}
+
+.activity-desc {
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+    color: var(--text-main);
+}
+
+/* --- Buttons --- */
+.asset-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin-top: auto;
+}
+.asset-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 1rem;
+    background: rgba(0, 242, 254, 0.05);
+    color: var(--accent-cyan);
+    border: 1px solid rgba(0, 242, 254, 0.2);
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+.asset-btn:hover {
+    background: var(--accent-cyan);
+    color: var(--bg-dark);
+}

@@ -1,0 +1,186 @@
+/* --- Page Header --- */
+.page-header {
+    margin-bottom: 3rem;
+    border-bottom: 2px solid var(--card-border);
+    padding-bottom: 2rem;
+}
+
+.page-title {
+    font-size: clamp(2.5rem, 4vw, 3.5rem);
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 0.5rem;
+}
+
+.page-subtitle {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    max-width: 800px;
+}
+
+/* --- Filters (For future use) --- */
+.lab-filters {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    padding: 0.4rem 1.2rem;
+    border-radius: 30px;
+    border: 1px solid var(--card-border);
+    background: rgba(255, 255, 255, 0.02);
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.filter-btn:hover,
+.filter-btn.active {
+    background: rgba(0, 242, 254, 0.1);
+    border-color: var(--accent-cyan);
+    color: var(--accent-cyan);
+}
+
+/* --- Lab Grid --- */
+.lab-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+}
+
+/* --- Lab Project Card --- */
+.lab-card {
+    display: flex;
+    flex-direction: column;
+    padding: 0; /* Remove default padding to allow image to bleed to edges */
+    overflow: hidden;
+}
+
+.lab-image-wrapper {
+    width: 100%;
+    height: 180px;
+    background: rgba(0, 0, 0, 0.5);
+    border-bottom: 1px solid var(--card-border);
+    position: relative;
+}
+
+.lab-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.lab-card:hover .lab-image {
+    transform: scale(1.05);
+}
+
+.lab-content {
+    padding: 1.8rem;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+/* --- Status Badge --- */
+.lab-status {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: rgba(10, 14, 23, 0.85);
+    backdrop-filter: blur(4px);
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    border: 1px solid var(--card-border);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Status Indicator Dots */
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+.status-active .status-dot {
+    background: #00e676;
+    box-shadow: 0 0 8px #00e676;
+}
+.status-experimental .status-dot {
+    background: #ff9100;
+    box-shadow: 0 0 8px #ff9100;
+}
+.status-archived .status-dot {
+    background: #9e9e9e;
+}
+
+/* --- Typography inside Card --- */
+.lab-card h3 {
+    font-size: 1.3rem;
+    color: #fff;
+    margin-bottom: 0.2rem;
+    line-height: 1.3;
+}
+
+.lab-subtitle {
+    font-size: 0.9rem;
+    color: var(--accent-cyan);
+    margin-bottom: 1rem;
+    font-weight: 500;
+}
+
+.lab-desc {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+}
+
+/* --- Tags & Assets --- */
+.lab-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.lab-tag {
+    font-size: 0.75rem;
+    padding: 0.2rem 0.6rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    color: var(--text-muted);
+}
+
+.lab-footer {
+    margin-top: auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.lab-btn {
+    font-size: 0.85rem;
+    color: var(--text-main);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: color 0.2s;
+}
+
+.lab-btn:hover {
+    color: var(--accent-cyan);
+}

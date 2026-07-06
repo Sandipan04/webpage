@@ -1,0 +1,388 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Admin Dashboard</title>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+            rel="stylesheet"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        />
+        <link rel="stylesheet" href="css/global.css" />
+        <link rel="stylesheet" href="css/admin.css" />
+    </head>
+    <body>
+        <canvas id="network-canvas"></canvas>
+
+        <div id="login-overlay" class="login-overlay">
+            <div class="glass-card login-box">
+                <h2>Admin Access</h2>
+                <input
+                    type="password"
+                    id="admin-password"
+                    placeholder="Secret Key"
+                    class="admin-input"
+                    style="margin: 1rem 0"
+                />
+                <button id="login-btn" class="admin-btn">Login</button>
+                <p
+                    id="login-error"
+                    style="color: #ff5252; display: none; margin-top: 1rem"
+                >
+                    Invalid password.
+                </p>
+            </div>
+        </div>
+
+        <div id="admin-dashboard" class="admin-dashboard" style="display: none">
+            <aside class="admin-sidebar glass-card">
+                <div class="nav-brand" style="margin-bottom: 2rem">
+                    SS. Admin
+                </div>
+                <nav class="admin-nav">
+                    <button class="tab-btn active" data-tab="tab-home">
+                        <i class="fa-solid fa-house"></i> Homepage
+                    </button>
+                    <button class="tab-btn" data-tab="tab-academics">
+                        <i class="fa-solid fa-graduation-cap"></i> Academics
+                    </button>
+                    <button class="tab-btn" data-tab="tab-extra">
+                        <i class="fa-solid fa-users"></i> Extracurriculars
+                    </button>
+                    <button class="tab-btn" data-tab="tab-lab">
+                        <i class="fa-solid fa-flask"></i> The Lab
+                    </button>
+                    <button class="tab-btn" data-tab="tab-gallery">
+                        <i class="fa-solid fa-image"></i> Gallery
+                    </button>
+                </nav>
+                <button id="logout-btn" class="admin-btn logout-btn">
+                    Logout
+                </button>
+            </aside>
+
+            <main class="admin-content">
+                <!-- 1. HOMEPAGE -->
+                <section id="tab-home" class="tab-content active">
+                    <div class="glass-card" style="margin-bottom: 2rem">
+                        <h2>Profile Data</h2>
+                        <div class="form-group">
+                            <label>Name</label
+                            ><input
+                                type="text"
+                                id="profile-name"
+                                class="admin-input"
+                            />
+                        </div>
+                        <div class="form-group">
+                            <label>Tagline</label
+                            ><input
+                                type="text"
+                                id="profile-tagline"
+                                class="admin-input"
+                            />
+                        </div>
+                        <div class="form-group">
+                            <label>Profile Image URL</label>
+                            <div style="display: flex; gap: 0.5rem">
+                                <input
+                                    type="text"
+                                    id="profile-image"
+                                    class="admin-input"
+                                    style="flex: 1"
+                                />
+                                <button
+                                    class="admin-btn"
+                                    onclick="
+                                        document
+                                            .getElementById(
+                                                'profile-image-upload',
+                                            )
+                                            .click()
+                                    "
+                                    style="width: auto"
+                                >
+                                    <i class="fa-solid fa-upload"></i> Upload
+                                </button>
+                                <input
+                                    type="file"
+                                    id="profile-image-upload"
+                                    style="display: none"
+                                    accept="image/*"
+                                    onchange="
+                                        handleInlineUpload(
+                                            this,
+                                            'profile-image',
+                                        )
+                                    "
+                                />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>About Me (Markdown)</label
+                            ><textarea
+                                id="profile-about"
+                                class="admin-input"
+                                rows="5"
+                            ></textarea>
+                        </div>
+                        <button
+                            class="admin-btn save-btn"
+                            onclick="saveProfile()"
+                        >
+                            Save Profile
+                        </button>
+                    </div>
+                    <div class="glass-card" style="margin-bottom: 2rem">
+                        <div class="flex-header">
+                            <h2>Contacts</h2>
+                            <button
+                                class="admin-btn sm-btn"
+                                onclick="openEditor('contacts')"
+                            >
+                                + New
+                            </button>
+                        </div>
+                        <div id="contacts-list" class="item-list"></div>
+                    </div>
+                    <div class="glass-card">
+                        <div class="flex-header">
+                            <h2>Skills</h2>
+                            <button
+                                class="admin-btn sm-btn"
+                                onclick="openEditor('skills')"
+                            >
+                                + New
+                            </button>
+                        </div>
+                        <div id="skills-list" class="item-list"></div>
+                    </div>
+                </section>
+
+                <!-- 2. ACADEMICS -->
+                <section id="tab-academics" class="tab-content">
+                    <div class="glass-card" style="margin-bottom: 2rem">
+                        <div class="flex-header">
+                            <h2>Research & Internships</h2>
+                            <button
+                                class="admin-btn sm-btn"
+                                onclick="openEditor('research')"
+                            >
+                                + New
+                            </button>
+                        </div>
+                        <div id="research-list" class="item-list"></div>
+                    </div>
+                    <div class="glass-card" style="margin-bottom: 2rem">
+                        <div class="flex-header">
+                            <h2>Qualifications (Coursework)</h2>
+                            <button
+                                class="admin-btn sm-btn"
+                                onclick="openEditor('qualifications')"
+                            >
+                                + New
+                            </button>
+                        </div>
+                        <div id="qualifications-list" class="item-list"></div>
+                    </div>
+                    <div class="glass-card" style="margin-bottom: 2rem">
+                        <div class="flex-header">
+                            <h2>Awards & Honors</h2>
+                            <button
+                                class="admin-btn sm-btn"
+                                onclick="openEditor('awards')"
+                            >
+                                + New
+                            </button>
+                        </div>
+                        <div id="awards-list" class="item-list"></div>
+                    </div>
+                    <div class="glass-card">
+                        <div class="flex-header">
+                            <h2>Tests & Achievements</h2>
+                            <button
+                                class="admin-btn sm-btn"
+                                onclick="openEditor('achievements')"
+                            >
+                                + New
+                            </button>
+                        </div>
+                        <div id="achievements-list" class="item-list"></div>
+                    </div>
+                </section>
+
+                <!-- 3. EXTRACURRICULARS -->
+                <section id="tab-extra" class="tab-content">
+                    <div class="glass-card" style="margin-bottom: 2rem">
+                        <div class="flex-header">
+                            <h2>Clubs</h2>
+                            <button
+                                class="admin-btn sm-btn"
+                                onclick="openEditor('clubs')"
+                            >
+                                + New
+                            </button>
+                        </div>
+                        <div id="clubs-list" class="item-list"></div>
+                    </div>
+                    <div class="glass-card" style="margin-bottom: 2rem">
+                        <div class="flex-header">
+                            <h2>Club Activities</h2>
+                            <button
+                                class="admin-btn sm-btn"
+                                onclick="openEditor('club_activities')"
+                            >
+                                + New
+                            </button>
+                        </div>
+                        <div id="club_activities-list" class="item-list"></div>
+                    </div>
+                    <div class="glass-card" style="margin-bottom: 2rem">
+                        <div class="flex-header">
+                            <h2>Volunteering</h2>
+                            <button
+                                class="admin-btn sm-btn"
+                                onclick="openEditor('volunteering')"
+                            >
+                                + New
+                            </button>
+                        </div>
+                        <div id="volunteering-list" class="item-list"></div>
+                    </div>
+                    <div class="glass-card">
+                        <div class="flex-header">
+                            <h2>Competitions</h2>
+                            <button
+                                class="admin-btn sm-btn"
+                                onclick="openEditor('competitions')"
+                            >
+                                + New
+                            </button>
+                        </div>
+                        <div id="competitions-list" class="item-list"></div>
+                    </div>
+                </section>
+
+                <!-- 4. THE LAB -->
+                <section id="tab-lab" class="tab-content">
+                    <div class="glass-card">
+                        <div class="flex-header">
+                            <h2>Lab Projects</h2>
+                            <button
+                                class="admin-btn sm-btn"
+                                onclick="openEditor('lab')"
+                            >
+                                + New
+                            </button>
+                        </div>
+                        <div id="lab-list" class="item-list"></div>
+                    </div>
+                </section>
+
+                <!-- 5. GALLERY -->
+                <section id="tab-gallery" class="tab-content">
+                    <div class="glass-card">
+                        <div class="flex-header">
+                            <h2>Gallery Albums</h2>
+                            <button
+                                class="admin-btn sm-btn"
+                                onclick="openEditor('gallery')"
+                            >
+                                + New
+                            </button>
+                        </div>
+                        <div id="gallery-list" class="item-list"></div>
+                    </div>
+                </section>
+            </main>
+        </div>
+
+        <!-- Generic Modal -->
+        <div id="editor-modal" class="login-overlay" style="display: none">
+            <div class="glass-card editor-box">
+                <div class="flex-header">
+                    <h3 id="editor-title">Edit Item</h3>
+                    <button class="close-btn" onclick="closeEditor()">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+                <div id="editor-form" class="editor-form"></div>
+                <div class="editor-actions">
+                    <button class="admin-btn save-btn" onclick="saveItem()">
+                        Save
+                    </button>
+                    <button
+                        class="admin-btn cancel-btn"
+                        onclick="closeEditor()"
+                    >
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Command Palette Overlay -->
+        <div
+            id="cmd-palette"
+            class="login-overlay"
+            style="display: none; align-items: flex-start; padding-top: 10vh"
+        >
+            <div
+                class="glass-card editor-box"
+                style="max-width: 500px; padding: 1.5rem"
+            >
+                <div
+                    style="
+                        display: flex;
+                        align-items: center;
+                        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                        padding-bottom: 1rem;
+                        margin-bottom: 1rem;
+                    "
+                >
+                    <i
+                        class="fa-solid fa-magnifying-glass"
+                        style="
+                            color: var(--accent-cyan);
+                            margin-right: 1rem;
+                            font-size: 1.2rem;
+                        "
+                    ></i>
+                    <input
+                        type="text"
+                        id="cmd-input"
+                        class="admin-input"
+                        placeholder="Type a command..."
+                        style="
+                            border: none;
+                            background: transparent;
+                            padding: 0;
+                            font-size: 1.2rem;
+                            box-shadow: none;
+                        "
+                    />
+                </div>
+                <div
+                    id="cmd-results"
+                    style="
+                        display: flex;
+                        flex-direction: column;
+                        gap: 0.5rem;
+                        max-height: 300px;
+                        overflow-y: auto;
+                    "
+                >
+                    <!-- Results injected here via JS -->
+                </div>
+            </div>
+        </div>
+
+        <script src="js/api.js"></script>
+        <script src="js/global.js"></script>
+        <script src="js/admin.js"></script>
+    </body>
+</html>

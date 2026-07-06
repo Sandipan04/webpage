@@ -1,0 +1,144 @@
+/* --- Hero Section --- */
+#hero-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 3rem;
+    margin-bottom: 4rem;
+}
+
+.hero-text-wrap {
+    flex: 1;
+}
+
+.hero-title {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -1px;
+    margin-bottom: 1rem;
+}
+
+.hero-subtitle {
+    font-size: clamp(1rem, 1.5vw, 1.2rem);
+    font-weight: 300;
+    color: var(--text-muted);
+}
+
+.hero-image {
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--card-border);
+    box-shadow: 0 0 30px rgba(0, 242, 254, 0.1);
+    flex-shrink: 0;
+}
+
+/* --- 12-Column Bento Layout --- */
+.bento-layout {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 4rem;
+}
+
+/* Widescreen Layout */
+.card-about {
+    grid-column: span 8;
+}
+.card-contact {
+    grid-column: span 4;
+    align-self: start; /* Prevents the card from stretching if About is very long */
+}
+.card-skill {
+    grid-column: span 4;
+} /* 3 cards per row */
+
+/* Tablet Layout */
+@media (max-width: 1024px) {
+    .card-about {
+        grid-column: span 12;
+    }
+    .card-contact {
+        grid-column: span 12;
+    }
+    .card-skill {
+        grid-column: span 6;
+    } /* 2 cards per row */
+}
+
+/* Mobile Layout */
+@media (max-width: 768px) {
+    #hero-section {
+        flex-direction: column-reverse;
+        text-align: center;
+        gap: 2rem;
+        margin-bottom: 3rem;
+    }
+    .hero-image {
+        width: 160px;
+        height: 160px;
+    }
+    .card-skill {
+        grid-column: span 12;
+    } /* 1 card per row */
+}
+
+/* --- Section Headers --- */
+.section-title {
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--text-main);
+    margin-bottom: 1.5rem;
+}
+
+.bento-layout h3 {
+    font-size: 1.3rem;
+    color: var(--accent-cyan);
+    margin-bottom: 1.2rem;
+    font-weight: 600;
+}
+
+/* --- Tags & Contacts --- */
+.skill-tag {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 0.4rem 1rem;
+    border-radius: 30px;
+    font-size: 0.9rem;
+    margin: 0.4rem 0.4rem 0 0;
+    color: var(--text-main);
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+a.skill-tag:hover {
+    border-color: var(--accent-violet);
+    color: var(--accent-violet);
+    background: rgba(155, 81, 224, 0.1);
+}
+
+.contact-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+.contact-item i {
+    font-size: 1.2rem;
+    color: var(--accent-cyan);
+    width: 24px;
+    text-align: center;
+}
+.contact-item:hover {
+    color: var(--text-main);
+}

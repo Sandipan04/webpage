@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>The Lab | Sandipan Samanta</title>
+
+        <link
+            href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+            rel="stylesheet"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        />
+
+        <link rel="stylesheet" href="css/global.css" />
+        <link rel="stylesheet" href="css/lab.css" />
+    </head>
+    <body>
+        <canvas id="network-canvas"></canvas>
+
+        <nav id="main-nav">
+            <div class="nav-brand">SS.</div>
+            <div class="menu-toggle" id="mobile-menu">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+            <div class="nav-links" id="nav-links"></div>
+        </nav>
+
+        <main class="container">
+            <div class="page-header animate-on-scroll">
+                <h1 class="page-title">The Lab</h1>
+                <p class="page-subtitle">
+                    A collection of hobby projects, hardware configurations, and
+                    experimental hypotheses (even the ones that proved me
+                    wrong).
+                </p>
+            </div>
+
+            <!-- Filter/Sort -->
+            <div class="lab-filters animate-on-scroll" id="lab-filters">
+                <span class="filter-btn active" data-filter="all">All</span>
+                <span class="filter-btn" data-filter="active">Active</span>
+                <span class="filter-btn" data-filter="experimental"
+                    >Experimental</span
+                >
+                <span class="filter-btn" data-filter="completed"
+                    >Completed</span
+                >
+                <span class="filter-btn" data-filter="archived">Archived</span>
+            </div>
+
+            <!-- Projects Grid -->
+            <section id="lab-grid" class="lab-grid animate-on-scroll"></section>
+        </main>
+
+        <script src="js/api.js"></script>
+        <script src="js/global.js"></script>
+        <script src="js/lab.js"></script>
+    </body>
+</html>

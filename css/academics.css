@@ -1,0 +1,183 @@
+/* --- Page Specific Typography --- */
+.page-title {
+    font-size: clamp(2.5rem, 4vw, 3.5rem);
+    font-weight: 700;
+    margin-bottom: 3rem;
+    color: #fff;
+    border-bottom: 2px solid var(--card-border);
+    padding-bottom: 1rem;
+}
+
+.section-title {
+    font-size: 1.8rem;
+    color: var(--accent-cyan);
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+}
+
+/* --- General Grid --- */
+.academics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1.5rem;
+}
+
+/* --- Research Project Cards --- */
+.research-card h3 {
+    color: #fff;
+    font-size: 1.3rem;
+    margin-bottom: 0.2rem;
+}
+.research-meta {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+.research-meta strong {
+    color: var(--accent-violet);
+    font-weight: 500;
+}
+.research-desc {
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+}
+
+.asset-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin-top: auto;
+}
+.asset-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 1rem;
+    background: rgba(0, 242, 254, 0.05);
+    color: var(--accent-cyan);
+    border: 1px solid rgba(0, 242, 254, 0.2);
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+.asset-btn:hover {
+    background: var(--accent-cyan);
+    color: var(--bg-dark);
+}
+
+/* --- Qualifications & Collapsible Coursework --- */
+.qualification-block {
+    margin-bottom: 3rem;
+}
+
+.qual-header {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+}
+.qual-header h3 {
+    margin-bottom: 0.2rem;
+    color: #fff;
+}
+.qual-header .timeline {
+    color: var(--accent-cyan);
+    font-size: 0.9rem;
+}
+
+/* Accordion Styles */
+.semester-accordion {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    margin-bottom: 0.8rem;
+    transition: background 0.3s ease;
+}
+.semester-accordion:hover {
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.semester-accordion summary {
+    padding: 1.2rem;
+    cursor: pointer;
+    font-weight: 500;
+    color: var(--text-main);
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    user-select: none;
+}
+/* Hide default HTML details arrow */
+.semester-accordion summary::-webkit-details-marker {
+    display: none;
+}
+/* Custom FontAwesome arrow */
+.semester-accordion summary::after {
+    content: "\f078";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    color: var(--text-muted);
+    transition: transform 0.3s ease;
+}
+.semester-accordion[open] summary::after {
+    transform: rotate(180deg);
+    color: var(--accent-cyan);
+}
+.semester-accordion[open] summary {
+    color: var(--accent-cyan);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.semester-content {
+    padding: 1rem 1.2rem;
+}
+
+.course-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+.course-row:last-child {
+    border-bottom: none;
+}
+.course-score {
+    font-weight: 600;
+    color: var(--accent-violet);
+}
+
+/* --- Achievements & Awards Cards --- */
+.achievement-card {
+    display: flex;
+    flex-direction: column;
+}
+.achievement-score-wrap {
+    display: flex;
+    gap: 2rem;
+    margin: 1.5rem 0;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+.score-box {
+    display: flex;
+    flex-direction: column;
+}
+.score-label {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.score-value {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--accent-cyan);
+}
