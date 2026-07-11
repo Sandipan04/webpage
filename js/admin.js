@@ -198,6 +198,10 @@ document.addEventListener("DOMContentLoaded", () => {
         .classList.add("active");
     });
   });
+
+  // Fade out the loader once everything above is finished!
+  const loader = document.getElementById("global-loader");
+  if (loader) loader.classList.add("hidden");
 });
 
 async function initDashboard() {
