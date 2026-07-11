@@ -34,6 +34,10 @@ document.addEventListener("DOMContentLoaded", async () => {
   renderVolunteering(data.volunteering);
 
   if (typeof initScrollObserver === "function") initScrollObserver();
+
+  // Fade out the loader once everything above is finished!
+  const loader = document.getElementById("global-loader");
+  if (loader) loader.classList.add("hidden");
 });
 
 // KEEP your existing renderClubs() and renderVolunteering() functions exactly the same!
@@ -66,16 +70,40 @@ function renderClubs(clubs) {
                 ? `
                 <div class="activity-grid">
                     ${club.activities
-                      .map(
-                        (act) => `
+                      .map((act) => {
+                        // 1. Parse the markdown first
+                        const parsedDesc = act.description
+                          ? typeof marked !== "undefined"
+                            ? marked.parse(act.description)
+                            : act.description
+                          : "";
+
+                        // 2. Return the formatted HTML for the card
+                        return `
                         <div class="glass-card activity-card">
                             <div><span class="activity-type-tag">${act.type}</span></div>
                             <h4>${act.title}</h4>
                             <div class="activity-meta">
-                                <span>${act.subtitle} | ${act.date}</span>
+                                ${act.subtitle ? `<span><strong>Event:</strong> ${act.subtitle}</span>` : ""}
+                                <span><strong>Date:</strong> ${act.date}</span>
                                 ${act.speakers ? `<span><strong>Speaker(s):</strong> ${act.speakers}</span>` : ""}
                             </div>
-                            <p class="activity-desc">${act.description}</p>
+
+                            ${
+                              parsedDesc
+                                ? `
+                                <div class="activity-desc-container">
+                                    <button class="toggle-desc-btn" onclick="this.nextElementSibling.classList.toggle('expanded'); this.innerText = this.innerText.includes('View') ? 'Hide Description' : 'View Description'">
+                                        <i class="fa-solid fa-align-left"></i> View Description
+                                    </button>
+                                    <div class="activity-desc markdown-content">
+                                        ${parsedDesc}
+                                    </div>
+                                </div>
+                            `
+                                : ""
+                            }
+
                             <div class="asset-links">
                                 ${(act.assets || [])
                                   .map(
@@ -93,8 +121,8 @@ function renderClubs(clubs) {
                                   .join("")}
                             </div>
                         </div>
-                    `,
-                      )
+                        `;
+                      })
                       .join("")}
                 </div>
             `
@@ -120,7 +148,15 @@ function renderVolunteering(volunteering) {
         <div class="glass-card activity-card">
             <h4>${vol.event_name}</h4>
             <div class="activity-meta"><span>${vol.subtitle} | ${vol.date}</span></div>
-            <p class="activity-desc">${vol.description}</p>
+            ${
+              vol.description
+                ? `
+                <div class="activity-desc markdown-content">
+                    ${typeof marked !== "undefined" ? marked.parse(vol.description) : vol.description}
+                </div>
+            `
+                : ""
+            }
             <div class="asset-links">
                 ${(vol.assets || [])
                   .map(

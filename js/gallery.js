@@ -9,6 +9,10 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   renderGalleries(canvases);
   if (typeof initScrollObserver === "function") initScrollObserver();
+
+  // Fade out the loader once everything above is finished!
+  const loader = document.getElementById("global-loader");
+  if (loader) loader.classList.add("hidden");
 });
 
 function renderGalleries(canvases) {
@@ -23,7 +27,15 @@ function renderGalleries(canvases) {
                 <div class="gallery-info">
                     <h3>${canvas.title}</h3>
                     <div class="gallery-meta">${canvas.subtitle}</div>
-                    <p class="gallery-desc">${canvas.description}</p>
+                    ${
+                      canvas.description
+                        ? `
+                        <div class="gallery-desc markdown-content">
+                            ${typeof marked !== "undefined" ? marked.parse(canvas.description) : canvas.description}
+                        </div>
+                    `
+                        : ""
+                    }
                 </div>
 
                 <div class="slideshow-container" id="slideshow-${canvas.canvas_id}">

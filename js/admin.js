@@ -47,6 +47,7 @@ const formSchemas = {
     { key: "institution", label: "Institution", type: "text" },
     { key: "program", label: "Program", type: "text" },
     { key: "timeline", label: "Timeline", type: "text" },
+    { key: "overall_score", label: "Overall Score/CGPA", type: "text" },
     {
       key: "semesters_json",
       label: "Semesters & Courses",
@@ -91,6 +92,11 @@ const formSchemas = {
     { key: "club_name", label: "Parent Club Name", type: "text" },
     { key: "type", label: "Activity Type (e.g. Talk)", type: "text" },
     { key: "title", label: "Title", type: "text" },
+    {
+      key: "subtitle",
+      label: "Subtitle/Event Name",
+      type: "text",
+    } /* <-- NEW FIELD */,
     { key: "date", label: "Date", type: "text" },
     { key: "description", label: "Description", type: "textarea" },
     { key: "assets_json", label: "Assets (Files)", type: "list_files" },
@@ -374,20 +380,24 @@ function generateDynamicListHTML(key, type, subFields) {
       html += `<div style="display:flex; gap:0.8rem; width: 100%;"><div class="dyn-inputs"><input type="text" class="admin-input" placeholder="Tag Name" value="${val}" onchange="window.updateDyn('${key}', ${index}, null, this.value)"></div><button type="button" class="action-btn delete" onclick="window.removeDyn('${key}', ${index})"><i class="fa-solid fa-xmark"></i></button></div>`;
     } else if (type === "list_semesters") {
       html += `
-            <div style="display:flex; gap:0.5rem; width:100%; align-items:center;">
-                <input type="text" class="admin-input" placeholder="Semester Name" value="${item.name || ""}" onchange="window.updateDyn('${key}', ${index}, 'name', this.value)">
-                <input type="text" class="admin-input" placeholder="Overall Score" value="${item.score || ""}" onchange="window.updateDyn('${key}', ${index}, 'score', this.value)">
-                <button type="button" class="action-btn delete" onclick="window.removeDyn('${key}', ${index})"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-            <div style="margin: 0.5rem 0 0 1rem; padding-left: 1rem; border-left: 2px solid var(--card-border); width: calc(100% - 1rem);">
-                <h5 style="margin-bottom:0.5rem; color:var(--text-muted); font-size:0.8rem;">Courses</h5>`;
+                <div style="display:flex; gap:0.5rem; width:100%; align-items:center;">
+                    <div style="display:flex; flex-direction:column; gap:0.2rem;">
+                        <button type="button" class="sort-btn" onclick="window.moveDynItem('${key}', ${index}, -1)" ${index === 0 ? 'disabled style="opacity:0.2"' : ""}><i class="fa-solid fa-chevron-up"></i></button>
+                        <button type="button" class="sort-btn" onclick="window.moveDynItem('${key}', ${index}, 1)" ${index === items.length - 1 ? 'disabled style="opacity:0.2"' : ""}><i class="fa-solid fa-chevron-down"></i></button>
+                    </div>
+                    <input type="text" class="admin-input" placeholder="Semester Name" value="${item.name || ""}" onchange="window.updateDyn('${key}', ${index}, 'name', this.value)">
+                    <input type="text" class="admin-input" placeholder="Overall Score" value="${item.score || ""}" onchange="window.updateDyn('${key}', ${index}, 'score', this.value)">
+                    <button type="button" class="action-btn delete" onclick="window.removeDyn('${key}', ${index})"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+                <div style="margin: 0.5rem 0 0 2rem; padding-left: 1rem; border-left: 2px solid var(--card-border); width: calc(100% - 2rem);">
+                    <h5 style="margin-bottom:0.5rem; color:var(--text-muted); font-size:0.8rem;">Courses</h5>`;
       const courses = item.courses || [];
       courses.forEach((c, cIdx) => {
         html += `<div class="semester-course-row">
-                    <input type="text" class="admin-input" placeholder="Course Name" value="${c.name || ""}" onchange="window.updateCourse('${key}', ${index}, ${cIdx}, 'name', this.value)">
-                    <input type="text" class="admin-input" placeholder="Grade/Score" value="${c.score || ""}" onchange="window.updateCourse('${key}', ${index}, ${cIdx}, 'score', this.value)">
-                    <button type="button" class="action-btn delete" style="width:28px; height:28px;" onclick="window.removeCourse('${key}', ${index}, ${cIdx})"><i class="fa-solid fa-xmark"></i></button>
-                </div>`;
+                        <input type="text" class="admin-input" placeholder="Course Name" value="${c.name || ""}" onchange="window.updateCourse('${key}', ${index}, ${cIdx}, 'name', this.value)">
+                        <input type="text" class="admin-input" placeholder="Grade/Score" value="${c.score || ""}" onchange="window.updateCourse('${key}', ${index}, ${cIdx}, 'score', this.value)">
+                        <button type="button" class="action-btn delete" style="width:28px; height:28px;" onclick="window.removeCourse('${key}', ${index}, ${cIdx})"><i class="fa-solid fa-xmark"></i></button>
+                    </div>`;
       });
       html += `<button type="button" class="admin-btn sm-btn" onclick="window.addCourse('${key}', ${index})">+ Add Course</button></div>`;
     } else {
@@ -428,6 +438,18 @@ window.addDyn = function (key, type) {
   if (!activeFormData[key]) activeFormData[key] = [];
   if (type === "list_tags") activeFormData[key].push("");
   else activeFormData[key].push({});
+  rebuildDynamicList(key);
+};
+window.moveDynItem = function (key, index, direction) {
+  const items = activeFormData[key];
+  const targetIndex = index + direction;
+  if (targetIndex < 0 || targetIndex >= items.length) return;
+
+  // Swap items in memory
+  let temp = items[index];
+  items[index] = items[targetIndex];
+  items[targetIndex] = temp;
+
   rebuildDynamicList(key);
 };
 

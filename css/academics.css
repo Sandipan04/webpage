@@ -181,3 +181,105 @@
     font-weight: 700;
     color: var(--accent-cyan);
 }
+
+/* --- Research Markdown & Toggles --- */
+.research-desc-container {
+    margin-top: 1rem;
+    margin-bottom: 1.5rem;
+}
+.toggle-desc-btn {
+    background: transparent;
+    border: 1px solid var(--card-border);
+    color: var(--accent-cyan);
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-family: "Poppins", sans-serif;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.toggle-desc-btn:hover {
+    background: rgba(0, 242, 254, 0.1);
+}
+
+.research-desc {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: all 0.4s ease;
+    margin-top: 0.8rem;
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+}
+.research-desc.expanded {
+    max-height: 2000px;
+    opacity: 1;
+    padding-bottom: 0.5rem;
+}
+
+/* Styles for markdown content inside the description */
+.research-desc p {
+    margin-bottom: 0.8rem;
+}
+.research-desc ul,
+.research-desc ol {
+    margin-left: 1.5rem;
+    margin-bottom: 0.8rem;
+}
+.research-desc li {
+    margin-bottom: 0.4rem;
+}
+
+/* --- Qualifications CGPA Badge & Toggles --- */
+.qual-header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+.overall-score {
+    background: rgba(155, 81, 224, 0.15);
+    border: 1px solid rgba(155, 81, 224, 0.3);
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    text-align: center;
+    flex-shrink: 0;
+}
+.overall-score .score-label {
+    display: block;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+}
+.overall-score .score-value {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--accent-violet);
+}
+
+.qual-actions {
+    text-align: right;
+    margin-bottom: 1rem;
+}
+.qual-actions .asset-btn {
+    cursor: pointer;
+}
+
+/* --- Semester List Toggle Animation --- */
+.accordions-container {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: all 0.5s ease;
+}
+.accordions-container.expanded {
+    max-height: 5000px; /* Large enough to comfortably fit 10 semesters */
+    opacity: 1;
+    padding-top: 0.5rem;
+}

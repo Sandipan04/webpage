@@ -11,6 +11,10 @@ document.addEventListener("DOMContentLoaded", async () => {
   renderLabGrid(allProjects);
   setupFilters();
   if (typeof initScrollObserver === "function") initScrollObserver();
+
+  // Fade out the loader once everything above is finished!
+  const loader = document.getElementById("global-loader");
+  if (loader) loader.classList.add("hidden");
 });
 
 function setupFilters() {
@@ -60,7 +64,15 @@ function renderLabGrid(projects) {
                 <div class="lab-content">
                     <h3>${proj.title}</h3>
                     <div class="lab-subtitle">${proj.subtitle}</div>
-                    <p class="lab-desc">${proj.description}</p>
+                    ${
+                      proj.description
+                        ? `
+                        <div class="lab-desc markdown-content">
+                            ${typeof marked !== "undefined" ? marked.parse(proj.description) : proj.description}
+                        </div>
+                    `
+                        : ""
+                    }
                     <div class="lab-tags">
                         ${(proj.tags || []).map((tag) => `<span class="lab-tag">${tag}</span>`).join("")}
                     </div>

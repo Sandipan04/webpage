@@ -24,6 +24,10 @@ document.addEventListener("DOMContentLoaded", async () => {
   renderSkillsGrid(data.skills);
 
   if (window.MathJax) MathJax.typesetPromise();
+
+  // Fade out the loader once everything above is finished!
+  const loader = document.getElementById("global-loader");
+  if (loader) loader.classList.add("hidden");
 });
 
 function renderHomeHero(heroData) {
