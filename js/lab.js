@@ -2,6 +2,10 @@ let allProjects = [];
 
 document.addEventListener("DOMContentLoaded", async () => {
   const dbLab = (await fetchAPI("/lab")) || [];
+
+  // Sort descending
+  dbLab.sort((a, b) => (b.sort_order || 0) - (a.sort_order || 0));
+
   allProjects = dbLab.map((proj) => ({
     ...proj,
     tags: JSON.parse(proj.tags_json || "[]"),

@@ -549,13 +549,43 @@ window.handleMultipleUpload = async function (inputElement, key) {
   const loader = document.getElementById(`loader_${key}`);
   loader.style.display = "inline";
 
+  // --- NEW: Determine Base Name from Canvas ID ---
+  let baseName = "image";
+  if (currentEditorMode === "gallery" && key === "images_json") {
+    const canvasIdInput = document.getElementById("edit_canvas_id");
+    baseName =
+      canvasIdInput && canvasIdInput.value.trim() !== ""
+        ? canvasIdInput.value
+        : "album";
+    // Convert to a safe slug (e.g., "Freshers 2024" -> "freshers-2024")
+    baseName = baseName
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/(^-|-$)+/g, "");
+  }
+
+  // Starting index based on how many images are already uploaded
+  const startIndex = activeFormData[key].length + 1;
+
   for (let i = 0; i < inputElement.files.length; i++) {
     try {
-      const result = await uploadFileToAPI(inputElement.files[i]);
+      let fileToUpload = inputElement.files[i];
+
+      // --- NEW: Rename the File Object ---
+      if (currentEditorMode === "gallery" && key === "images_json") {
+        const extension = fileToUpload.name.split(".").pop();
+        const newName = `${baseName}_${String(startIndex + i).padStart(2, "0")}.${extension}`;
+        // Re-create the file with the new name before sending to R2
+        fileToUpload = new File([fileToUpload], newName, {
+          type: fileToUpload.type,
+        });
+      }
+
+      const result = await uploadFileToAPI(fileToUpload);
       activeFormData[key].push({
         url: result.url,
         caption: "",
-        name: inputElement.files[i].name,
+        name: fileToUpload.name, // Will display the neat 'freshers_01.jpg' in the UI!
       });
     } catch (e) {
       console.error("Failed to upload file", i);

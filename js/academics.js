@@ -4,15 +4,22 @@ document.addEventListener("DOMContentLoaded", async () => {
   const dbAwards = (await fetchAPI("/awards")) || [];
   const dbAchievements = (await fetchAPI("/achievements")) || [];
 
+  // Sort all database items in reverse (descending) order
+  dbResearch.sort((a, b) => (b.sort_order || 0) - (a.sort_order || 0));
+  dbQuals.sort((a, b) => (b.sort_order || 0) - (a.sort_order || 0));
+  dbAwards.sort((a, b) => (b.sort_order || 0) - (a.sort_order || 0));
+  dbAchievements.sort((a, b) => (b.sort_order || 0) - (a.sort_order || 0));
+
   const data = {
     research: dbResearch.map((r) => ({
       ...r,
       links: JSON.parse(r.links_json || "[]"),
     })),
-    qualifications: dbQuals.map((q) => ({
-      ...q,
-      semesters: JSON.parse(q.semesters_json || "[]"),
-    })),
+    qualifications: dbQuals.map((q) => {
+      let semesters = JSON.parse(q.semesters_json || "[]");
+      // semesters.reverse(); // Reverse the nested semesters array
+      return { ...q, semesters };
+    }),
     awards: dbAwards,
     achievements: dbAchievements.map((a) => ({
       ...a,

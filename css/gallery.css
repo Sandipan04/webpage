@@ -61,7 +61,7 @@
 .slideshow-container {
     position: relative;
     width: 100%;
-    aspect-ratio: 16 / 10;
+    aspect-ratio: 4 / 3;
     background: rgba(0, 0, 0, 0.6);
     border-radius: 12px;
     border: 1px solid var(--card-border);
@@ -88,7 +88,7 @@
 .slide img {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Change to 'contain' if you don't want images cropped */
+    object-fit: contain; /* Change to 'contain' if you don't want images cropped */
 }
 
 /* Caption Overlay */

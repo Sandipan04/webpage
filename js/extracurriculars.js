@@ -12,6 +12,11 @@ document.addEventListener("DOMContentLoaded", async () => {
   const dbVolunteering = (await fetchAPI("/volunteering")) || [];
   const dbCompetitions = (await fetchAPI("/competitions")) || [];
 
+  // Sort all database items in reverse (descending) order
+  dbClubs.sort((a, b) => (b.sort_order || 0) - (a.sort_order || 0));
+  dbClubActivities.sort((a, b) => (b.sort_order || 0) - (a.sort_order || 0));
+  dbVolunteering.sort((a, b) => (b.sort_order || 0) - (a.sort_order || 0));
+
   // Group activities by club_name
   const activitiesMap = {};
   dbClubActivities.forEach((act) => {
@@ -163,21 +168,37 @@ function renderVolunteering(volunteering) {
       '<p style="color: var(--text-muted);">No volunteering records found.</p>';
     return;
   }
+
   grid.innerHTML = volunteering
-    .map(
-      (vol) => `
+    .map((vol) => {
+      // 1. Parse markdown
+      const parsedDesc = vol.description
+        ? typeof marked !== "undefined"
+          ? marked.parse(vol.description)
+          : vol.description
+        : "";
+
+      // 2. Return the upgraded card with toggle and assets
+      return `
         <div class="glass-card activity-card">
-            <h4>${vol.event_name}</h4>
+            <h4 style="color: var(--text-main); margin-bottom: 0.3rem;">${vol.event_name}</h4>
             <div class="activity-meta"><span>${vol.subtitle} | ${vol.date}</span></div>
+
             ${
-              vol.description
+              parsedDesc
                 ? `
-                <div class="activity-desc markdown-content">
-                    ${typeof marked !== "undefined" ? marked.parse(vol.description) : vol.description}
+                <div class="activity-desc-container">
+                    <button class="toggle-desc-btn" onclick="this.nextElementSibling.classList.toggle('expanded'); this.innerText = this.innerText.includes('View') ? 'Hide Description' : 'View Description'">
+                        <i class="fa-solid fa-align-left"></i> View Description
+                    </button>
+                    <div class="activity-desc markdown-content">
+                        ${parsedDesc}
+                    </div>
                 </div>
             `
                 : ""
             }
+
             <div class="asset-links">
                 ${(vol.assets || [])
                   .map(
@@ -195,7 +216,7 @@ function renderVolunteering(volunteering) {
                   .join("")}
             </div>
         </div>
-    `,
-    )
+    `;
+    })
     .join("");
 }

@@ -1,7 +1,12 @@
 const slideIndices = {};
+const slideIntervals = {}; // NEW: Stores the slideshow timers
 
 document.addEventListener("DOMContentLoaded", async () => {
-  const dbGallery = (await fetchAPI("/gallery")) || [];
+  let dbGallery = (await fetchAPI("/gallery")) || [];
+
+  // Apply the descending sort you requested earlier
+  dbGallery.sort((a, b) => (b.sort_order || 0) - (a.sort_order || 0));
+
   const canvases = dbGallery.map((c) => ({
     ...c,
     images: JSON.parse(c.images_json || "[]"),
@@ -10,7 +15,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   renderGalleries(canvases);
   if (typeof initScrollObserver === "function") initScrollObserver();
 
-  // Fade out the loader once everything above is finished!
   const loader = document.getElementById("global-loader");
   if (loader) loader.classList.add("hidden");
 });
@@ -25,7 +29,7 @@ function renderGalleries(canvases) {
       return `
             <div class="glass-card gallery-card animate-on-scroll">
                 <div class="gallery-info">
-                    <h3>${canvas.title}</h3>
+                    <h3 style="color: var(--text-main); font-weight: 600;">${canvas.title}</h3>
                     <div class="gallery-meta">${canvas.subtitle}</div>
                     ${
                       canvas.description
@@ -67,12 +71,64 @@ function renderGalleries(canvases) {
         `;
     })
     .join("");
+
+  // NEW: Initialize Auto-Slideshows & Pause/Resume Events
+  canvases.forEach((canvas) => {
+    if (canvas.images && canvas.images.length > 1) {
+      const container = document.getElementById(
+        `slideshow-${canvas.canvas_id}`,
+      );
+      if (container) {
+        startSlideshow(canvas.canvas_id);
+
+        // Pause on hover (Desktop)
+        container.addEventListener("mouseenter", () =>
+          stopSlideshow(canvas.canvas_id),
+        );
+        container.addEventListener("mouseleave", () =>
+          startSlideshow(canvas.canvas_id),
+        );
+
+        // Pause on touch (Mobile)
+        container.addEventListener(
+          "touchstart",
+          () => stopSlideshow(canvas.canvas_id),
+          { passive: true },
+        );
+        container.addEventListener(
+          "touchend",
+          () => {
+            setTimeout(() => startSlideshow(canvas.canvas_id), 1500); // Resume 1.5s after taking finger off
+          },
+          { passive: true },
+        );
+      }
+    }
+  });
+}
+
+// --- Slideshow Logic ---
+
+function startSlideshow(canvasId) {
+  stopSlideshow(canvasId); // Prevent duplicate intervals
+  slideIntervals[canvasId] = setInterval(() => {
+    changeSlide(canvasId, 1);
+  }, 3500); // Change image every 3.5 seconds
+}
+
+function stopSlideshow(canvasId) {
+  if (slideIntervals[canvasId]) {
+    clearInterval(slideIntervals[canvasId]);
+    slideIntervals[canvasId] = null;
+  }
 }
 
 function changeSlide(canvasId, direction) {
   const container = document.getElementById(`slideshow-${canvasId}`);
+  if (!container) return;
   const slides = container.querySelectorAll(".slide");
   if (!slides.length) return;
+
   let newIndex = slideIndices[canvasId] + direction;
   if (newIndex >= slides.length) newIndex = 0;
   if (newIndex < 0) newIndex = slides.length - 1;
@@ -81,6 +137,7 @@ function changeSlide(canvasId, direction) {
 
 function goToSlide(canvasId, targetIndex) {
   const container = document.getElementById(`slideshow-${canvasId}`);
+  if (!container) return;
   const slides = container.querySelectorAll(".slide");
   const dots = container.querySelectorAll(".dot");
 
