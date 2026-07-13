@@ -1,4 +1,52 @@
+// Run instantly to prevent flashing before DOM loads
+(function initTheme() {
+  const savedTheme = localStorage.getItem("theme") || "dark";
+  document.documentElement.setAttribute("data-theme", savedTheme);
+})();
+
+// --- Theme Logic ---
+window.canvasColors = {
+  dot: "255, 255, 255",
+  line: "0, 242, 254",
+  opacity: 0.15,
+};
+
+function syncCanvasColors() {
+  const styles = getComputedStyle(document.documentElement);
+  // Read the values straight from your CSS!
+  window.canvasColors.dot =
+    styles.getPropertyValue("--canvas-dot-rgb").trim() || "255, 255, 255";
+  window.canvasColors.line =
+    styles.getPropertyValue("--canvas-line-rgb").trim() || "0, 242, 254";
+  window.canvasColors.opacity =
+    parseFloat(styles.getPropertyValue("--canvas-line-opacity")) || 0.15;
+}
+
+window.toggleTheme = function () {
+  // To add more themes later, just add them to this array!
+  const themes = ["dark", "light"];
+  let current = document.documentElement.getAttribute("data-theme") || "dark";
+  let nextIndex = (themes.indexOf(current) + 1) % themes.length;
+  let next = themes[nextIndex];
+
+  document.documentElement.setAttribute("data-theme", next);
+  localStorage.setItem("theme", next);
+  updateThemeIcon(next);
+  syncCanvasColors();
+};
+
+function updateThemeIcon(theme) {
+  const btn = document.getElementById("theme-toggle");
+  if (!btn) return;
+  btn.innerHTML =
+    theme === "dark"
+      ? '<i class="fa-solid fa-sun"></i>'
+      : '<i class="fa-solid fa-moon"></i>';
+}
+
 document.addEventListener("DOMContentLoaded", () => {
+  syncCanvasColors();
+
   renderGlobalNav();
   initMobileMenu();
   initBackground();
@@ -17,6 +65,21 @@ function renderGlobalNav() {
         <a href="lab.html" class="${path.includes("lab") ? "active" : ""}">The Lab</a>
         <a href="gallery.html" class="${path.includes("gallery") ? "active" : ""}">Gallery</a>
     `;
+
+  // Inject the theme toggle directly into the main nav (outside of nav-links)
+  let themeBtn = document.getElementById("theme-toggle");
+  if (!themeBtn) {
+    themeBtn = document.createElement("button");
+    themeBtn.id = "theme-toggle";
+    themeBtn.className = "theme-btn";
+    themeBtn.onclick = window.toggleTheme;
+    themeBtn.setAttribute("aria-label", "Toggle Theme");
+    document.getElementById("main-nav").appendChild(themeBtn);
+  }
+
+  updateThemeIcon(
+    document.documentElement.getAttribute("data-theme") || "dark",
+  );
 }
 
 function initMobileMenu() {
@@ -24,8 +87,33 @@ function initMobileMenu() {
   const navLinks = document.getElementById("nav-links");
 
   if (menuToggle && navLinks) {
-    menuToggle.addEventListener("click", () => {
+    const icon = menuToggle.querySelector("i");
+
+    // Toggle menu and icon
+    menuToggle.addEventListener("click", (e) => {
+      e.stopPropagation(); // Prevents the document click listener from firing immediately
       navLinks.classList.toggle("active");
+
+      if (navLinks.classList.contains("active")) {
+        icon.classList.remove("fa-bars");
+        icon.classList.add("fa-xmark");
+      } else {
+        icon.classList.remove("fa-xmark");
+        icon.classList.add("fa-bars");
+      }
+    });
+
+    // Close menu when tapping outside of it
+    document.addEventListener("click", (e) => {
+      if (
+        navLinks.classList.contains("active") &&
+        !navLinks.contains(e.target) &&
+        !menuToggle.contains(e.target)
+      ) {
+        navLinks.classList.remove("active");
+        icon.classList.remove("fa-xmark");
+        icon.classList.add("fa-bars");
+      }
     });
   }
 }
@@ -47,6 +135,7 @@ function initScrollObserver() {
     .forEach((el) => observer.observe(el));
 }
 
+// --- Background Canvas Logic ---
 function initBackground() {
   const canvas = document.getElementById("network-canvas");
   if (!canvas) return;
@@ -77,7 +166,8 @@ function initBackground() {
     draw() {
       ctx.beginPath();
       ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-      ctx.fillStyle = "rgba(255, 255, 255, 0.3)";
+      // Automatically uses the synced CSS variable
+      ctx.fillStyle = `rgba(${window.canvasColors.dot}, 0.35)`;
       ctx.fill();
     }
   }
@@ -105,7 +195,11 @@ function initBackground() {
           ctx.beginPath();
           ctx.moveTo(particles[i].x, particles[i].y);
           ctx.lineTo(particles[j].x, particles[j].y);
-          ctx.strokeStyle = `rgba(0, 242, 254, ${(1 - distance / 150) * 0.15})`;
+
+          // Automatically uses the synced CSS variables for dynamic opacity and color
+          const dynamicOpacity =
+            (1 - distance / 150) * window.canvasColors.opacity;
+          ctx.strokeStyle = `rgba(${window.canvasColors.line}, ${dynamicOpacity})`;
           ctx.stroke();
         }
       }

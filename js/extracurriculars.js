@@ -1,3 +1,11 @@
+// Creates a URL-safe ID from a name (e.g. "RoboTech Club" -> "robotech-club")
+function makeSlug(text) {
+  return text
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)+/g, "");
+}
+
 document.addEventListener("DOMContentLoaded", async () => {
   const dbClubs = (await fetchAPI("/clubs")) || [];
   const dbClubActivities = (await fetchAPI("/club_activities")) || [];
@@ -38,6 +46,19 @@ document.addEventListener("DOMContentLoaded", async () => {
   // Fade out the loader once everything above is finished!
   const loader = document.getElementById("global-loader");
   if (loader) loader.classList.add("hidden");
+
+  // Smooth scroll to the targeted club if there is a hash in the URL
+  if (window.location.hash) {
+    setTimeout(() => {
+      const targetElement = document.querySelector(window.location.hash);
+      if (targetElement) {
+        // Offset by 100px so it doesn't get hidden under your sticky navbar
+        const y =
+          targetElement.getBoundingClientRect().top + window.scrollY - 100;
+        window.scrollTo({ top: y, behavior: "smooth" });
+      }
+    }, 100); // 100ms delay ensures the DOM is fully painted
+  }
 });
 
 // KEEP your existing renderClubs() and renderVolunteering() functions exactly the same!
@@ -48,7 +69,7 @@ function renderClubs(clubs) {
   container.innerHTML = clubs
     .map(
       (club) => `
-        <div class="club-section animate-on-scroll">
+      <div class="club-section animate-on-scroll" id="${makeSlug(club.name)}">
             <div class="club-header" style="align-items: flex-start;">
                 <h3>${club.name}</h3>
                 <div class="club-meta" style="flex-direction: column; gap: 0.2rem; text-align: right;">

@@ -175,7 +175,7 @@ function renderAwards(awards) {
         : "";
       return `
         <div class="glass-card">
-            <h3 style="color: #fff; margin-bottom: 0.2rem;">${award.title}</h3>
+            <h3 style="color: var(--text-main); margin-bottom: 0.2rem; font-weight: 600;">${award.title}</h3>
             <div style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">${award.subtitle} | ${award.date}</div>
             <div class="markdown-content" style="font-size: 0.95rem;">${parsedDesc}</div>
             ${award.link ? `<div class="asset-links" style="margin-top: 1rem;"><a href="${award.link}" class="asset-btn" target="_blank"><i class="fa-solid fa-link"></i> View</a></div>` : ""}
@@ -192,7 +192,7 @@ function renderAchievements(achievements) {
     .map(
       (ach) => `
         <div class="glass-card achievement-card">
-            <h3 style="color: #fff; margin-bottom: 0.2rem;">${ach.title}</h3>
+            <h3 style="color: var(--text-main); margin-bottom: 0.2rem; font-weight: 600;">${ach.title}</h3>
             <div style="color: var(--text-muted); font-size: 0.9rem;">${ach.subtitle} | ${ach.date}</div>
             <div class="achievement-score-wrap">
                 ${(ach.scores || [])

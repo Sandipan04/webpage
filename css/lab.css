@@ -8,7 +8,7 @@
 .page-title {
     font-size: clamp(2.5rem, 4vw, 3.5rem);
     font-weight: 700;
-    color: #fff;
+    color: var(--text-main);
     margin-bottom: 0.5rem;
 }
 
@@ -126,7 +126,7 @@
 /* --- Typography inside Card --- */
 .lab-card h3 {
     font-size: 1.3rem;
-    color: #fff;
+    color: var(--text-main);
     margin-bottom: 0.2rem;
     line-height: 1.3;
 }
