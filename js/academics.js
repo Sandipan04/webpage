@@ -17,7 +17,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     })),
     qualifications: dbQuals.map((q) => {
       let semesters = JSON.parse(q.semesters_json || "[]");
-      // semesters.reverse(); // Reverse the nested semesters array
       return { ...q, semesters };
     }),
     awards: dbAwards,
@@ -52,24 +51,24 @@ function renderResearch(projects) {
         : "";
 
       return `
-        <div class="glass-card research-card">
+        <div class="glass-card research-card-accent">
             <h3>${proj.title}</h3>
             <div class="research-meta">
-                <span><strong>Type:</strong> ${proj.subtitle}</span>
-                <span><strong>Guide:</strong> ${proj.guide}</span>
-                <span><strong>Location:</strong> ${proj.place}</span>
-                <span><strong>Timeline:</strong> ${proj.timeline}</span>
-                ${proj.collaborators ? `<span><strong>Collaborators:</strong> ${proj.collaborators}</span>` : ""}
+                <span class="research-meta-chip"><i class="fa-solid fa-tag"></i> ${proj.subtitle}</span>
+                <span class="research-meta-chip"><i class="fa-solid fa-user-tie"></i> ${proj.guide}</span>
+                <span class="research-meta-chip"><i class="fa-solid fa-location-dot"></i> ${proj.place}</span>
+                <span class="research-meta-chip"><i class="fa-solid fa-calendar"></i> ${proj.timeline}</span>
+                ${proj.collaborators ? `<span class="research-meta-chip"><i class="fa-solid fa-users"></i> ${proj.collaborators}</span>` : ""}
             </div>
 
             ${
               parsedDesc
                 ? `
                 <div class="research-desc-container">
-                    <button class="toggle-desc-btn" onclick="this.nextElementSibling.classList.toggle('expanded'); this.innerText = this.innerText.includes('View') ? 'Hide Description' : 'View Description'">
+                    <button class="toggle-desc-btn" onclick="this.nextElementSibling.classList.toggle('expanded'); this.innerHTML = this.innerHTML.includes('View') ? '<i class=\\'fa-solid fa-align-left\\'></i> Hide Description' : '<i class=\\'fa-solid fa-align-left\\'></i> View Description'">
                         <i class="fa-solid fa-align-left"></i> View Description
                     </button>
-                    <div class="research-desc">${parsedDesc}</div>
+                    <div class="research-desc markdown-content">${parsedDesc}</div>
                 </div>
             `
                 : ""
@@ -86,14 +85,15 @@ function renderResearch(projects) {
     .join("");
 }
 
-// Replace your renderQualifications function:
 function renderQualifications(quals) {
   const container = document.getElementById("qualifications-container");
   if (!container) return;
 
-  container.innerHTML = quals
-    .map(
-      (qual) => `
+  container.innerHTML = `
+    <div class="qualification-timeline">
+    ${quals
+      .map(
+        (qual) => `
         <div class="qualification-block">
             <div class="qual-header">
                 <div class="qual-header-top">
@@ -105,7 +105,7 @@ function renderQualifications(quals) {
                     ${
                       qual.overall_score
                         ? `
-                        <div class="overall-score">
+                        <div class="overall-score-badge">
                             <span class="score-label">Overall</span>
                             <span class="score-value">${qual.overall_score}</span>
                         </div>
@@ -118,7 +118,7 @@ function renderQualifications(quals) {
             ${
               qual.semesters && qual.semesters.length > 0
                 ? `
-                <div class="qual-actions" style="margin-top: 0.5rem;">
+                <div class="qual-actions" style="margin-top: 0.5rem; margin-bottom: 1rem;">
                     <button class="toggle-desc-btn" onclick="toggleSemestersVisibility(this)">
                         <i class="fa-solid fa-layer-group"></i> View Details
                     </button>
@@ -151,11 +151,12 @@ function renderQualifications(quals) {
             }
         </div>
     `,
-    )
-    .join("");
+      )
+      .join("")}
+    </div>
+  `;
 }
 
-// Replace the old toggleAllSemesters function with this new one:
 window.toggleSemestersVisibility = function (btn) {
   const container = btn
     .closest(".qualification-block")
@@ -181,9 +182,9 @@ function renderAwards(awards) {
           : award.description
         : "";
       return `
-        <div class="glass-card">
-            <h3 style="color: var(--text-main); margin-bottom: 0.2rem; font-weight: 600;">${award.title}</h3>
-            <div style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">${award.subtitle} | ${award.date}</div>
+        <div class="glass-card award-card">
+            <h3>${award.title}</h3>
+            <div class="award-meta">${award.subtitle} | ${award.date}</div>
             <div class="markdown-content" style="font-size: 0.95rem;">${parsedDesc}</div>
             ${award.link ? `<div class="asset-links" style="margin-top: 1rem;"><a href="${award.link}" class="asset-btn" target="_blank"><i class="fa-solid fa-link"></i> View</a></div>` : ""}
         </div>
@@ -195,19 +196,20 @@ function renderAwards(awards) {
 function renderAchievements(achievements) {
   const grid = document.getElementById("achievements-grid");
   if (!grid) return;
+  
   grid.innerHTML = achievements
     .map(
       (ach) => `
         <div class="glass-card achievement-card">
-            <h3 style="color: var(--text-main); margin-bottom: 0.2rem; font-weight: 600;">${ach.title}</h3>
-            <div style="color: var(--text-muted); font-size: 0.9rem;">${ach.subtitle} | ${ach.date}</div>
+            <h3>${ach.title}</h3>
+            <div class="achievement-meta">${ach.subtitle} | ${ach.date}</div>
             <div class="achievement-score-wrap">
                 ${(ach.scores || [])
                   .map(
                     (s) => `
                     <div class="score-box">
                         <span class="score-label">${s.label}</span>
-                        <span class="score-value">${s.value}</span>
+                        <span class="score-value-large">${s.value}</span>
                     </div>
                 `,
                   )

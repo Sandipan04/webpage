@@ -1,154 +1,192 @@
-const slideIndices = {};
-const slideIntervals = {}; // NEW: Stores the slideshow timers
+// gallery.js
 
-document.addEventListener("DOMContentLoaded", async () => {
-  let dbGallery = (await fetchAPI("/gallery")) || [];
+let albumsData = [];
+let currentAlbumIndex = -1;
+let currentImageIndex = -1;
 
-  // Apply the descending sort you requested earlier
-  dbGallery.sort((a, b) => (b.sort_order || 0) - (a.sort_order || 0));
-
-  const canvases = dbGallery.map((c) => ({
-    ...c,
-    images: JSON.parse(c.images_json || "[]"),
-  }));
-
-  renderGalleries(canvases);
-  if (typeof initScrollObserver === "function") initScrollObserver();
-
-  const loader = document.getElementById("global-loader");
-  if (loader) loader.classList.add("hidden");
+document.addEventListener('DOMContentLoaded', () => {
+    fetchGalleries();
+    setupLightbox();
 });
 
-function renderGalleries(canvases) {
-  const grid = document.getElementById("gallery-grid");
-  if (!grid) return;
+async function fetchGalleries() {
+    try {
+        const response = await window.fetchAPI('/gallery');
+        if (!response) return;
 
-  grid.innerHTML = canvases
-    .map((canvas) => {
-      slideIndices[canvas.canvas_id] = 0;
-      return `
-            <div class="glass-card gallery-card animate-on-scroll">
-                <div class="gallery-info">
-                    <h3 style="color: var(--text-main); font-weight: 600;">${canvas.title}</h3>
-                    <div class="gallery-meta">${canvas.subtitle}</div>
-                    ${
-                      canvas.description
-                        ? `
-                        <div class="gallery-desc markdown-content">
-                            ${typeof marked !== "undefined" ? marked.parse(canvas.description) : canvas.description}
-                        </div>
-                    `
-                        : ""
-                    }
-                </div>
+        let galleries = response;
+        galleries.sort((a, b) => b.sort_order - a.sort_order);
 
-                <div class="slideshow-container" id="slideshow-${canvas.canvas_id}">
-                    <div class="slides-wrapper">
-                        ${(canvas.images || [])
-                          .map(
-                            (img, index) => `
-                            <div class="slide ${index === 0 ? "active" : ""}" data-index="${index}">
-                                <img src="${img.url}" alt="${img.caption || ""}">
-                                ${img.caption ? `<div class="slide-caption">${img.caption}</div>` : ""}
-                            </div>
-                        `,
-                          )
-                          .join("")}
-                    </div>
-                    ${
-                      (canvas.images || []).length > 1
-                        ? `
-                        <button class="slide-btn prev-btn" onclick="changeSlide('${canvas.canvas_id}', -1)"><i class="fa-solid fa-chevron-left"></i></button>
-                        <button class="slide-btn next-btn" onclick="changeSlide('${canvas.canvas_id}', 1)"><i class="fa-solid fa-chevron-right"></i></button>
-                        <div class="slide-indicators">
-                            ${canvas.images.map((_, index) => `<span class="dot ${index === 0 ? "active" : ""}" onclick="goToSlide('${canvas.canvas_id}', ${index})"></span>`).join("")}
-                        </div>
-                    `
-                        : ""
-                    }
-                </div>
-            </div>
-        `;
-    })
-    .join("");
+        albumsData = galleries.map(album => {
+            let images = [];
+            if (album.images_json) {
+                try {
+                    images = typeof album.images_json === 'string' ? JSON.parse(album.images_json) : album.images_json;
+                } catch (e) {
+                    console.error('Error parsing images_json for album:', album.title, e);
+                }
+            }
+            return { ...album, parsedImages: images };
+        });
 
-  // NEW: Initialize Auto-Slideshows & Pause/Resume Events
-  canvases.forEach((canvas) => {
-    if (canvas.images && canvas.images.length > 1) {
-      const container = document.getElementById(
-        `slideshow-${canvas.canvas_id}`,
-      );
-      if (container) {
-        startSlideshow(canvas.canvas_id);
-
-        // Pause on hover (Desktop)
-        container.addEventListener("mouseenter", () =>
-          stopSlideshow(canvas.canvas_id),
-        );
-        container.addEventListener("mouseleave", () =>
-          startSlideshow(canvas.canvas_id),
-        );
-
-        // Pause on touch (Mobile)
-        container.addEventListener(
-          "touchstart",
-          () => stopSlideshow(canvas.canvas_id),
-          { passive: true },
-        );
-        container.addEventListener(
-          "touchend",
-          () => {
-            setTimeout(() => startSlideshow(canvas.canvas_id), 1500); // Resume 1.5s after taking finger off
-          },
-          { passive: true },
-        );
-      }
+        renderGalleries(albumsData);
+        if (window.dismissLoader) window.dismissLoader();
+        if (window.initScrollObserver) window.initScrollObserver();
+    } catch (error) {
+        console.error('Failed to fetch galleries:', error);
+        const container = document.getElementById('galleries-container');
+        if (container) {
+            container.innerHTML = '<p class="error-msg">Failed to load galleries. Please try again later.</p>';
+        }
+        if (window.dismissLoader) window.dismissLoader();
     }
-  });
 }
 
-// --- Slideshow Logic ---
+function renderGalleries(galleries) {
+    const container = document.getElementById('galleries-container');
+    if (!container) return;
+    
+    container.innerHTML = '';
+    
+    galleries.forEach((album, albumIndex) => {
+        const card = document.createElement('div');
+        card.className = 'glass-card gallery-card animate-on-scroll';
+        
+        let descHtml = '';
+        if (album.description) {
+            descHtml = window.marked ? window.marked.parse(album.description) : escapeHtml(album.description);
+        }
 
-function startSlideshow(canvasId) {
-  stopSlideshow(canvasId); // Prevent duplicate intervals
-  slideIntervals[canvasId] = setInterval(() => {
-    changeSlide(canvasId, 1);
-  }, 3500); // Change image every 3.5 seconds
+        let html = `
+            <div class="gallery-info">
+                <h2 class="gallery-title font-display">${escapeHtml(album.title)}</h2>
+                ${album.subtitle ? `<div class="gallery-subtitle">${escapeHtml(album.subtitle)}</div>` : ''}
+                ${album.description ? `<div class="gallery-description markdown-content">${descHtml}</div>` : ''}
+            </div>
+            <div class="gallery-thumbs-grid">
+        `;
+        
+        album.parsedImages.forEach((img, imgIndex) => {
+            html += `
+                <div class="gallery-thumb" onclick="openLightbox(${albumIndex}, ${imgIndex})">
+                    <img src="${escapeHtml(img.url)}" alt="${escapeHtml(img.caption || album.title)}" loading="lazy" />
+                    ${img.caption ? `<div class="thumb-caption">${escapeHtml(img.caption)}</div>` : ''}
+                </div>
+            `;
+        });
+        
+        html += `</div>`;
+        card.innerHTML = html;
+        container.appendChild(card);
+    });
 }
 
-function stopSlideshow(canvasId) {
-  if (slideIntervals[canvasId]) {
-    clearInterval(slideIntervals[canvasId]);
-    slideIntervals[canvasId] = null;
-  }
+function setupLightbox() {
+    const lightbox = document.getElementById('lightbox');
+    const closeBtn = document.getElementById('lightbox-close');
+    const prevBtn = document.getElementById('lightbox-prev');
+    const nextBtn = document.getElementById('lightbox-next');
+    
+    if (!lightbox) return;
+
+    if (closeBtn) closeBtn.addEventListener('click', closeLightbox);
+    
+    lightbox.addEventListener('click', (e) => {
+        if (e.target === lightbox) {
+            closeLightbox();
+        }
+    });
+
+    if (prevBtn) prevBtn.addEventListener('click', () => navigateLightbox(-1));
+    if (nextBtn) nextBtn.addEventListener('click', () => navigateLightbox(1));
+
+    document.addEventListener('keydown', (e) => {
+        if (lightbox.style.display === 'none' || !lightbox.classList.contains('active')) return;
+        
+        if (e.key === 'Escape') closeLightbox();
+        else if (e.key === 'ArrowLeft') navigateLightbox(-1);
+        else if (e.key === 'ArrowRight') navigateLightbox(1);
+    });
 }
 
-function changeSlide(canvasId, direction) {
-  const container = document.getElementById(`slideshow-${canvasId}`);
-  if (!container) return;
-  const slides = container.querySelectorAll(".slide");
-  if (!slides.length) return;
+window.openLightbox = function(albumIndex, imageIndex) {
+    const lightbox = document.getElementById('lightbox');
+    if (!lightbox) return;
+    
+    currentAlbumIndex = albumIndex;
+    currentImageIndex = imageIndex;
+    
+    updateLightboxContent();
+    
+    lightbox.style.display = 'flex';
+    // Trigger reflow for animation
+    void lightbox.offsetWidth;
+    lightbox.classList.add('active');
+    document.body.style.overflow = 'hidden';
+};
 
-  let newIndex = slideIndices[canvasId] + direction;
-  if (newIndex >= slides.length) newIndex = 0;
-  if (newIndex < 0) newIndex = slides.length - 1;
-  goToSlide(canvasId, newIndex);
+function closeLightbox() {
+    const lightbox = document.getElementById('lightbox');
+    if (!lightbox) return;
+    
+    lightbox.classList.remove('active');
+    setTimeout(() => {
+        lightbox.style.display = 'none';
+        document.body.style.overflow = '';
+    }, 300);
 }
 
-function goToSlide(canvasId, targetIndex) {
-  const container = document.getElementById(`slideshow-${canvasId}`);
-  if (!container) return;
-  const slides = container.querySelectorAll(".slide");
-  const dots = container.querySelectorAll(".dot");
+function navigateLightbox(direction) {
+    if (currentAlbumIndex === -1 || currentImageIndex === -1) return;
+    
+    const album = albumsData[currentAlbumIndex];
+    if (!album || !album.parsedImages.length) return;
+    
+    currentImageIndex += direction;
+    
+    if (currentImageIndex < 0) {
+        currentImageIndex = album.parsedImages.length - 1;
+    } else if (currentImageIndex >= album.parsedImages.length) {
+        currentImageIndex = 0;
+    }
+    
+    updateLightboxContent();
+}
 
-  slideIndices[canvasId] = targetIndex;
+function updateLightboxContent() {
+    const album = albumsData[currentAlbumIndex];
+    if (!album) return;
+    
+    const imgData = album.parsedImages[currentImageIndex];
+    if (!imgData) return;
+    
+    const imgEl = document.getElementById('lightbox-img');
+    const captionEl = document.getElementById('lightbox-caption');
+    const counterEl = document.getElementById('lightbox-counter');
+    
+    if (imgEl) {
+        imgEl.src = imgData.url;
+        imgEl.alt = imgData.caption || album.title;
+    }
+    
+    if (captionEl) {
+        captionEl.textContent = imgData.caption || '';
+    }
+    
+    if (counterEl) {
+        counterEl.textContent = `${currentImageIndex + 1} / ${album.parsedImages.length}`;
+    }
+}
 
-  slides.forEach((slide, index) => {
-    if (index === targetIndex) slide.classList.add("active");
-    else slide.classList.remove("active");
-  });
-  dots.forEach((dot, index) => {
-    if (index === targetIndex) dot.classList.add("active");
-    else dot.classList.remove("active");
-  });
+function escapeHtml(unsafe) {
+    if (!unsafe) return '';
+    return (unsafe + '').replace(/[&<"'>]/g, function (m) {
+        return {
+            '&': '&amp;',
+            '<': '&lt;',
+            '"': '&quot;',
+            "'": '&#039;',
+            '>': '&gt;'
+        }[m];
+    });
 }

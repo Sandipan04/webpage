@@ -35,10 +35,15 @@ function renderHomeHero(heroData) {
   if (!heroSection) return;
   heroSection.innerHTML = `
         <div class="hero-text-wrap">
-            <h1 class="hero-title">${heroData.name}</h1>
+            <h1 class="hero-title font-display">${heroData.name}</h1>
             <p class="hero-subtitle">${heroData.tagline}</p>
+            <div class="hero-cta">
+                <a href="#about-contact-grid" class="asset-btn">Explore More</a>
+            </div>
         </div>
-        <img src="${heroData.photo}" alt="${heroData.name}" class="hero-image" onerror="this.src='https://placehold.net/220x220?text=Profile'">
+        <div class="hero-image-wrapper">
+            <img src="${heroData.photo}" alt="${heroData.name}" class="hero-image" onerror="this.src='https://placehold.net/220x220?text=Profile'">
+        </div>
     `;
 }
 
@@ -50,12 +55,12 @@ function renderAboutAndContact(data) {
       ? marked.parse(data.about_markdown)
       : data.about_markdown;
   grid.innerHTML = `
-        <div class="glass-card card-about">
-            <h3>About Me</h3>
-            <div style="color: var(--text-muted);">${parsedAbout}</div>
+        <div class="glass-card card-about card-about-accent animate-on-scroll">
+            <h3 class="font-display">About Me</h3>
+            <div class="markdown-content" style="color: var(--text-muted);">${parsedAbout}</div>
         </div>
-        <div class="glass-card card-contact">
-            <h3>Connect</h3>
+        <div class="glass-card card-contact animate-on-scroll" style="--stagger: 1">
+            <h3 class="font-display">Connect</h3>
             <div class="contact-list">
                 ${data.contacts
                   .map(
@@ -76,9 +81,9 @@ function renderSkillsGrid(skills) {
   if (!grid) return;
   grid.innerHTML = skills
     .map(
-      (skillGroup) => `
-        <div class="glass-card card-skill">
-            <h3>${skillGroup.category}</h3>
+      (skillGroup, index) => `
+        <div class="glass-card card-skill animate-on-scroll" style="--stagger: ${index}">
+            <h3 class="font-display">${skillGroup.category}</h3>
             <div class="skill-tags-wrap">
                 ${skillGroup.items
                   .map((item) =>

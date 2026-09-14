@@ -1,18 +1,15 @@
 /* --- Page Specific Typography --- */
 .page-title {
-    font-size: clamp(2.5rem, 4vw, 3.5rem);
-    font-weight: 700;
+    font-size: var(--fs-h1);
     margin-bottom: 3rem;
-    color: var(--text-main);
     border-bottom: 2px solid var(--card-border);
     padding-bottom: 1rem;
 }
 
 .section-title {
-    font-size: 1.8rem;
+    font-size: var(--fs-h2);
     color: var(--accent-cyan);
     margin-bottom: 1.5rem;
-    font-weight: 600;
 }
 
 /* --- Club Sections --- */
@@ -30,20 +27,23 @@
 }
 
 .club-header h3 {
-    font-size: 1.5rem;
-    color: var(--text-main);
+    font-size: var(--fs-h3);
     margin: 0;
 }
 
 .club-meta {
+    font-family: var(--font-mono);
     color: var(--text-muted);
-    font-size: 0.95rem;
+    font-size: var(--fs-sm);
+    letter-spacing: var(--ls-wide);
     display: flex;
     gap: 1rem;
 }
 .club-meta .role {
+    font-family: var(--font-body);
+    letter-spacing: var(--ls-normal);
     color: var(--accent-cyan);
-    font-weight: 500;
+    font-weight: var(--fw-medium);
 }
 
 @media (max-width: 600px) {
@@ -67,27 +67,29 @@
 }
 
 .activity-card h4 {
-    color: var(--text-main);
-    font-size: 1.2rem;
+    font-size: var(--fs-h4);
     margin-bottom: 0.3rem;
 }
 
 .activity-type-tag {
     display: inline-block;
+    font-family: var(--font-mono);
     background: rgba(155, 81, 224, 0.15);
     color: var(--accent-violet);
     border: 1px solid rgba(155, 81, 224, 0.3);
     padding: 0.2rem 0.8rem;
     border-radius: 4px;
-    font-size: 0.75rem;
-    font-weight: 600;
+    font-size: var(--fs-2xs);
+    font-weight: var(--fw-semibold);
     text-transform: uppercase;
     letter-spacing: 1px;
     margin-bottom: 1rem;
 }
 
 .activity-meta {
-    font-size: 0.85rem;
+    font-family: var(--font-mono);
+    font-size: var(--fs-sm);
+    letter-spacing: var(--ls-wide);
     color: var(--text-muted);
     margin-bottom: 1rem;
     display: flex;
@@ -96,12 +98,14 @@
 }
 
 .activity-meta strong {
+    font-family: var(--font-body);
+    letter-spacing: var(--ls-normal);
     color: var(--accent-cyan);
-    font-weight: 500;
+    font-weight: var(--fw-medium);
 }
 
 .activity-desc {
-    font-size: 0.95rem;
+    font-size: var(--fs-body);
     margin-bottom: 1.5rem;
     color: var(--text-main);
 }
@@ -123,8 +127,8 @@
     border: 1px solid rgba(0, 242, 254, 0.2);
     border-radius: 6px;
     text-decoration: none;
-    font-size: 0.85rem;
-    font-weight: 500;
+    font-size: var(--fs-xs);
+    font-weight: var(--fw-medium);
     transition: all 0.2s ease;
 }
 .asset-btn:hover {
@@ -138,7 +142,6 @@
     margin-bottom: 1rem;
 }
 
-/* In case this button style isn't in your global.css yet */
 .toggle-desc-btn {
     background: transparent;
     border: 1px solid var(--card-border);
@@ -146,8 +149,8 @@
     padding: 0.4rem 0.8rem;
     border-radius: 6px;
     cursor: pointer;
-    font-size: 0.85rem;
-    font-family: "Poppins", sans-serif;
+    font-size: var(--fs-sm);
+    font-family: var(--font-body);
     transition: all 0.2s;
     display: inline-flex;
     align-items: center;

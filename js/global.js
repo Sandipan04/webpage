@@ -5,23 +5,10 @@
 })();
 
 // --- Theme Logic ---
-window.canvasColors = {
-  dot: "255, 255, 255",
-  line: "0, 242, 254",
-  opacity: 0.15,
-};
-
-function syncCanvasColors() {
-  const styles = getComputedStyle(document.documentElement);
-  // Read the values straight from your CSS!
-  window.canvasColors.dot =
-    styles.getPropertyValue("--canvas-dot-rgb").trim() || "255, 255, 255";
-  window.canvasColors.line =
-    styles.getPropertyValue("--canvas-line-rgb").trim() || "0, 242, 254";
-  window.canvasColors.opacity =
-    parseFloat(styles.getPropertyValue("--canvas-line-opacity")) || 0.15;
-}
-
+// Note: the vein background (js/background.js) needs no color sync here —
+// its SVG strokes reference the theme's CSS custom properties directly
+// (--vein-base-rgb, --vein-pulse-a-rgb, etc), so toggling [data-theme]
+// updates it for free.
 window.toggleTheme = function () {
   // To add more themes later, just add them to this array!
   const themes = ["dark", "light"];
@@ -32,7 +19,6 @@ window.toggleTheme = function () {
   document.documentElement.setAttribute("data-theme", next);
   localStorage.setItem("theme", next);
   updateThemeIcon(next);
-  syncCanvasColors();
 };
 
 function updateThemeIcon(theme) {
@@ -45,12 +31,13 @@ function updateThemeIcon(theme) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  syncCanvasColors();
-
   renderGlobalNav();
   initMobileMenu();
-  initBackground();
   initScrollObserver();
+
+  // The actual canvas drawing lives in js/background.js so it can be
+  // swapped or restyled independently of nav/theme/scroll logic.
+  if (typeof window.initBackground === "function") window.initBackground();
 });
 
 function renderGlobalNav() {
@@ -133,81 +120,4 @@ function initScrollObserver() {
   document
     .querySelectorAll(".animate-on-scroll")
     .forEach((el) => observer.observe(el));
-}
-
-// --- Background Canvas Logic ---
-function initBackground() {
-  const canvas = document.getElementById("network-canvas");
-  if (!canvas) return;
-  const ctx = canvas.getContext("2d");
-  let width,
-    height,
-    particles = [];
-
-  function resize() {
-    width = canvas.width = window.innerWidth;
-    height = canvas.height = window.innerHeight;
-  }
-
-  class Particle {
-    constructor() {
-      this.x = Math.random() * width;
-      this.y = Math.random() * height;
-      this.vx = (Math.random() - 0.5) * 0.3;
-      this.vy = (Math.random() - 0.5) * 0.3;
-      this.radius = Math.random() * 1.5 + 0.5;
-    }
-    update() {
-      this.x += this.vx;
-      this.y += this.vy;
-      if (this.x < 0 || this.x > width) this.vx *= -1;
-      if (this.y < 0 || this.y > height) this.vy *= -1;
-    }
-    draw() {
-      ctx.beginPath();
-      ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-      // Automatically uses the synced CSS variable
-      ctx.fillStyle = `rgba(${window.canvasColors.dot}, 0.35)`;
-      ctx.fill();
-    }
-  }
-
-  function initParticles() {
-    resize();
-    particles = [];
-    for (let i = 0; i < 40; i++) particles.push(new Particle());
-  }
-
-  function animate() {
-    ctx.clearRect(0, 0, width, height);
-    particles.forEach((p) => {
-      p.update();
-      p.draw();
-    });
-
-    for (let i = 0; i < particles.length; i++) {
-      for (let j = i + 1; j < particles.length; j++) {
-        const distance = Math.hypot(
-          particles[i].x - particles[j].x,
-          particles[i].y - particles[j].y,
-        );
-        if (distance < 150) {
-          ctx.beginPath();
-          ctx.moveTo(particles[i].x, particles[i].y);
-          ctx.lineTo(particles[j].x, particles[j].y);
-
-          // Automatically uses the synced CSS variables for dynamic opacity and color
-          const dynamicOpacity =
-            (1 - distance / 150) * window.canvasColors.opacity;
-          ctx.strokeStyle = `rgba(${window.canvasColors.line}, ${dynamicOpacity})`;
-          ctx.stroke();
-        }
-      }
-    }
-    requestAnimationFrame(animate);
-  }
-
-  window.addEventListener("resize", initParticles);
-  initParticles();
-  animate();
 }

@@ -3,12 +3,12 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="description" content="Academic profile of Sandipan Samanta — research projects, qualifications, coursework, awards, and achievements." />
         <title>Academics | Sandipan Samanta</title>
 
-        <link
-            href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-            rel="stylesheet"
-        />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
         <link
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
@@ -21,9 +21,9 @@
     <body>
         <div id="global-loader" class="global-loader">
             <div class="loader-spinner"></div>
-            <div class="loader-text">Initializing</div>
+            <div class="loader-text">Loading</div>
         </div>
-        <canvas id="network-canvas"></canvas>
+        <div id="network-canvas"></div>
 
         <nav id="main-nav">
             <div class="nav-brand">SS.</div>
@@ -34,7 +34,10 @@
         </nav>
 
         <main class="container">
-            <h1 class="page-title animate-on-scroll">Academic Profile</h1>
+            <div class="page-header animate-on-scroll">
+                <h1 class="page-title">Academic Profile</h1>
+                <p class="page-subtitle">Research, qualifications, and academic milestones.</p>
+            </div>
 
             <!-- Research Projects -->
             <h2 class="section-title animate-on-scroll">
@@ -46,10 +49,7 @@
             ></section>
 
             <!-- Academic Qualifications & Coursework -->
-            <h2
-                class="section-title animate-on-scroll"
-                style="margin-top: 4rem"
-            >
+            <h2 class="section-title animate-on-scroll" style="margin-top: 4rem">
                 Qualifications & Coursework
             </h2>
             <section
@@ -58,10 +58,7 @@
             ></section>
 
             <!-- Awards & Honors -->
-            <h2
-                class="section-title animate-on-scroll"
-                style="margin-top: 4rem"
-            >
+            <h2 class="section-title animate-on-scroll" style="margin-top: 4rem">
                 Awards & Honors
             </h2>
             <section
@@ -69,11 +66,8 @@
                 class="academics-grid animate-on-scroll"
             ></section>
 
-            <!-- Awards & Achievements -->
-            <h2
-                class="section-title animate-on-scroll"
-                style="margin-top: 4rem"
-            >
+            <!-- Standardized Tests -->
+            <h2 class="section-title animate-on-scroll" style="margin-top: 4rem">
                 Standardized Tests & Entrances
             </h2>
             <section
@@ -82,7 +76,10 @@
             ></section>
         </main>
 
+        <footer id="site-footer" class="site-footer"></footer>
+
         <script src="js/api.js"></script>
+        <script src="js/background.js"></script>
         <script src="js/global.js"></script>
         <script src="js/academics.js"></script>
     </body>

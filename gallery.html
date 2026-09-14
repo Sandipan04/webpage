@@ -3,12 +3,12 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="description" content="Gallery — deep sky captures, event archives, and visual logs by Sandipan Samanta." />
         <title>Gallery | Sandipan Samanta</title>
 
-        <link
-            href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-            rel="stylesheet"
-        />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
         <link
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
@@ -20,9 +20,9 @@
     <body>
         <div id="global-loader" class="global-loader">
             <div class="loader-spinner"></div>
-            <div class="loader-text">Initializing</div>
+            <div class="loader-text">Loading</div>
         </div>
-        <canvas id="network-canvas"></canvas>
+        <div id="network-canvas"></div>
 
         <nav id="main-nav">
             <div class="nav-brand">SS.</div>
@@ -47,7 +47,22 @@
             ></section>
         </main>
 
+        <!-- Lightbox Modal -->
+        <div id="lightbox" class="lightbox-overlay" style="display: none">
+            <button class="lightbox-close" id="lightbox-close" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+            <button class="lightbox-nav lightbox-prev" id="lightbox-prev" aria-label="Previous"><i class="fa-solid fa-chevron-left"></i></button>
+            <button class="lightbox-nav lightbox-next" id="lightbox-next" aria-label="Next"><i class="fa-solid fa-chevron-right"></i></button>
+            <div class="lightbox-content">
+                <img id="lightbox-img" src="" alt="" />
+                <div class="lightbox-caption" id="lightbox-caption"></div>
+                <div class="lightbox-counter" id="lightbox-counter"></div>
+            </div>
+        </div>
+
+        <footer id="site-footer" class="site-footer"></footer>
+
         <script src="js/api.js"></script>
+        <script src="js/background.js"></script>
         <script src="js/global.js"></script>
         <script src="js/gallery.js"></script>
     </body>

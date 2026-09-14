@@ -8,12 +8,7 @@
     /* 1. Core Layout Colors */
     --bg-color: #050810;
     --card-bg: rgba(15, 20, 30, 0.5);
-    --card-border: rgba(
-        255,
-        255,
-        255,
-        0.15
-    ); /* Slightly brighter for visibility */
+    --card-border: rgba(255, 255, 255, 0.15);
     --nav-bg: rgba(5, 8, 16, 0.8);
     --nav-bg-mobile: rgba(5, 8, 16, 0.95);
 
@@ -25,48 +20,172 @@
     --accent-cyan: #00f2fe;
     --accent-violet: #9b51e0;
 
-    /* 4. Canvas Variables (Read by JS) */
-    --canvas-dot-rgb: 255, 255, 255;
-    --canvas-line-rgb: 0, 242, 254;
-    --canvas-line-opacity: 0.15;
+    /* 4. Vein Network Background (read directly by the SVG in css below —
+          no JS color sync needed, toggling data-theme updates it live) */
+    --vein-base-rgb: 71, 91, 133;       /* deep slate / midnight-indigo, static structure */
+    --vein-base-opacity: 0.32;
+    --vein-pulse-a-rgb: 0, 242, 254;    /* accent-cyan */
+    --vein-pulse-b-rgb: 155, 81, 224;   /* accent-violet */
+    --vein-pulse-opacity: 0.9;
+    --vein-glow: 5px;
 
-    /* NEW: Subtle elements for inner cards/accordions */
+    /* 5. Subtle elements for inner cards/accordions */
     --surface-bg: rgba(255, 255, 255, 0.02);
     --border-light: rgba(255, 255, 255, 0.06);
+
+    /* 6. Extended Color Ramps */
+    --primary-50: rgba(0, 242, 254, 0.03);
+    --primary-100: rgba(0, 242, 254, 0.08);
+    --primary-200: rgba(0, 242, 254, 0.15);
+    --primary-300: rgba(0, 242, 254, 0.25);
+    --primary-400: rgba(0, 242, 254, 0.4);
+    --primary-500: #00f2fe;
+    --primary-600: #00c2d4;
+
+    --secondary-50: rgba(155, 81, 224, 0.03);
+    --secondary-100: rgba(155, 81, 224, 0.08);
+    --secondary-200: rgba(155, 81, 224, 0.15);
+    --secondary-300: rgba(155, 81, 224, 0.25);
+    --secondary-500: #9b51e0;
+
+    --accent-success: #00e676;
+    --accent-warning: #ff9100;
+    --accent-error: #ff5252;
+
+    --neutral-50: rgba(255, 255, 255, 0.02);
+    --neutral-100: rgba(255, 255, 255, 0.05);
+    --neutral-200: rgba(255, 255, 255, 0.08);
+    --neutral-300: rgba(255, 255, 255, 0.12);
+    --neutral-400: rgba(255, 255, 255, 0.2);
+
+    /* 7. Gradient Definitions */
+    --gradient-primary: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+    --gradient-secondary: linear-gradient(135deg, #9b51e0 0%, #6d28d9 100%);
+    --gradient-mesh: radial-gradient(ellipse at top left, rgba(0, 242, 254, 0.08), transparent 50%),
+                     radial-gradient(ellipse at bottom right, rgba(155, 81, 224, 0.06), transparent 50%);
+
+    /* 8. Shadows */
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.15);
+    --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.25);
+    --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.35);
+    --shadow-glow: 0 0 30px rgba(0, 242, 254, 0.12);
+    --shadow-glow-violet: 0 0 30px rgba(155, 81, 224, 0.12);
 }
 
 [data-theme="light"] {
     /* 1. Core Layout Colors */
-    --bg-color: #f4f7f9; /* Crisp, clean off-white */
-    --card-bg: rgba(
-        255,
-        255,
-        255,
-        0.85
-    ); /* Solid enough to hide background noise */
-    --card-border: rgba(0, 0, 0, 0.15); /* Darker, clearly visible borders */
+    --bg-color: #f4f7f9;
+    --card-bg: rgba(255, 255, 255, 0.85);
+    --card-border: rgba(0, 0, 0, 0.15);
     --nav-bg: rgba(244, 247, 249, 0.9);
     --nav-bg-mobile: rgba(244, 247, 249, 0.98);
 
     /* 2. Typography */
-    --text-main: #111827; /* Near black for high contrast */
-    --text-muted: #4b5563; /* Darker slate for readability */
+    --text-main: #111827;
+    --text-muted: #4b5563;
 
     /* 3. Accents */
-    --accent-cyan: #0284c7; /* Deep professional blue */
+    --accent-cyan: #0284c7;
     --accent-violet: #6d28d9;
 
-    /* 4. Canvas Variables (Read by JS) */
-    --canvas-dot-rgb: 17, 24, 39;
-    --canvas-line-rgb: 2, 132, 199;
-    --canvas-line-opacity: 0.25; /* Thicker lines for light mode */
+    /* 4. Vein Network Background */
+    --vein-base-rgb: 148, 163, 184;     /* faint icy silver-slate */
+    --vein-base-opacity: 0.4;
+    --vein-pulse-a-rgb: 2, 132, 199;    /* accent-cyan (light) — crisp white would vanish on this bg */
+    --vein-pulse-b-rgb: 109, 40, 217;   /* accent-violet (light) */
+    --vein-pulse-opacity: 0.85;
+    --vein-glow: 4px;
 
-    /* NEW: Subtle elements for inner cards/accordions */
-    --surface-bg: rgba(0, 0, 0, 0.03); /* Faint dark background */
-    --border-light: rgba(0, 0, 0, 0.1); /* Visible dark border */
+    /* 5. Subtle elements */
+    --surface-bg: rgba(0, 0, 0, 0.03);
+    --border-light: rgba(0, 0, 0, 0.1);
+
+    /* 6. Extended Color Ramps */
+    --primary-50: rgba(2, 132, 199, 0.03);
+    --primary-100: rgba(2, 132, 199, 0.08);
+    --primary-200: rgba(2, 132, 199, 0.15);
+    --primary-300: rgba(2, 132, 199, 0.25);
+    --primary-400: rgba(2, 132, 199, 0.4);
+    --primary-500: #0284c7;
+    --primary-600: #0369a1;
+
+    --secondary-50: rgba(109, 40, 217, 0.03);
+    --secondary-100: rgba(109, 40, 217, 0.08);
+    --secondary-200: rgba(109, 40, 217, 0.15);
+    --secondary-300: rgba(109, 40, 217, 0.25);
+    --secondary-500: #6d28d9;
+
+    --accent-success: #16a34a;
+    --accent-warning: #ea580c;
+    --accent-error: #dc2626;
+
+    --neutral-50: rgba(0, 0, 0, 0.02);
+    --neutral-100: rgba(0, 0, 0, 0.04);
+    --neutral-200: rgba(0, 0, 0, 0.06);
+    --neutral-300: rgba(0, 0, 0, 0.1);
+    --neutral-400: rgba(0, 0, 0, 0.15);
+
+    /* 7. Gradient Definitions */
+    --gradient-primary: linear-gradient(135deg, #0284c7 0%, #0ea5e9 100%);
+    --gradient-secondary: linear-gradient(135deg, #6d28d9 0%, #7c3aed 100%);
+    --gradient-mesh: radial-gradient(ellipse at top left, rgba(2, 132, 199, 0.06), transparent 50%),
+                     radial-gradient(ellipse at bottom right, rgba(109, 40, 217, 0.05), transparent 50%);
+
+    /* 8. Shadows */
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
+    --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.15);
+    --shadow-glow: 0 0 30px rgba(2, 132, 199, 0.1);
+    --shadow-glow-violet: 0 0 30px rgba(109, 40, 217, 0.1);
 }
 
-/* --- You can add more later! e.g., [data-theme="hacker"] --- */
+/* =========================================
+   TYPOGRAPHY SYSTEM
+   Single source of truth for every typeface,
+   size, weight, and spacing on the site.
+   Tune the scale here — every page inherits it.
+========================================= */
+:root {
+    /* --- Font families ---
+       Heading: Space Grotesk  — technical, geometric, a little clinical (fits research/lab content)
+       Body:    Inter          — neutral, highly legible at small sizes
+       Mono:    JetBrains Mono — reserved for data: dates, scores, tags, timelines */
+    --font-heading: "Space Grotesk", "Poppins", sans-serif;
+    --font-body: "Inter", "Poppins", sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+    /* --- Weights --- */
+    --fw-regular: 400;
+    --fw-medium: 500;
+    --fw-semibold: 600;
+    --fw-bold: 700;
+
+    /* --- Fluid type scale (mobile → desktop), ~1.25 ratio --- */
+    --fs-h1: clamp(2.4rem, 1.85rem + 2.4vw, 3.75rem);
+    --fs-h2: clamp(1.8rem, 1.5rem + 1.3vw, 2.5rem);
+    --fs-h3: clamp(1.375rem, 1.25rem + 0.5vw, 1.6rem);
+    --fs-h4: clamp(1.15rem, 1.08rem + 0.3vw, 1.3rem);
+    --fs-body-lg: 1.125rem;
+    --fs-body: 1rem;
+    --fs-sm: 0.9rem;
+    --fs-xs: 0.8rem;
+    --fs-2xs: 0.72rem;
+
+    /* --- Line heights --- */
+    --lh-tight: 1.15;
+    --lh-heading: 1.25;
+    --lh-body: 1.7;
+
+    /* --- Letter spacing ---
+       Negative tracking tightens large display type;
+       positive tracking is reserved for mono/data labels. */
+    --ls-tight: -0.02em;
+    --ls-normal: 0;
+    --ls-wide: 0.04em;
+
+    /* --- Body copy measure: keep prose under ~75ch --- */
+    --measure: 68ch;
+}
 
 /* ========================================= */
 
@@ -74,18 +193,57 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "Poppins", sans-serif;
 }
 
 body {
-    background-color: var(--bg-color); /* Changed from --bg-dark */
+    font-family: var(--font-body);
+    font-weight: var(--fw-regular);
+    font-size: var(--fs-body);
+    background-color: var(--bg-color);
+    background-image: var(--gradient-mesh);
     color: var(--text-main);
-    line-height: 1.7;
+    line-height: var(--lh-body);
     min-height: 100vh;
     overflow-x: hidden;
     transition:
         background-color 0.4s ease,
         color 0.4s ease;
+}
+
+/* --- Global Heading Defaults ---
+   Every page inherits this hierarchy. Page-specific classes
+   (.page-title, .section-title, etc.) can still override size,
+   but family/weight/tracking stay consistent site-wide. */
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    font-weight: var(--fw-semibold);
+    line-height: var(--lh-heading);
+    letter-spacing: var(--ls-tight);
+    color: var(--text-main);
+}
+
+h1 { font-size: var(--fs-h1); font-weight: var(--fw-bold); line-height: var(--lh-tight); }
+h2 { font-size: var(--fs-h2); }
+h3 { font-size: var(--fs-h3); }
+h4 { font-size: var(--fs-h4); }
+h5, h6 { font-size: var(--fs-body-lg); }
+
+p {
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+    max-width: var(--measure);
+}
+
+small { font-size: var(--fs-xs); }
+
+/* --- Data / meta typographic treatment ---
+   Applied deliberately to dates, scores, tags and timelines
+   throughout the page-specific CSS files — not decoration,
+   but a way of visually distinguishing "data" from "prose". */
+.font-mono,
+.data-label {
+    font-family: var(--font-mono);
+    letter-spacing: var(--ls-wide);
 }
 
 #network-canvas {
@@ -98,12 +256,59 @@ body {
     pointer-events: none;
 }
 
+/* --- Cybernetic Vein Background ---
+   Two layers of the same SVG path network: a thicker, more transparent
+   static "vein-base" layer for structure, and a thinner "vein-pulse"
+   layer whose dashes flow along the paths via a single CSS animation —
+   no JS render loop, no canvas, just stroke-dashoffset. */
+#vein-svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.vein-base path {
+    fill: none;
+    stroke: rgba(var(--vein-base-rgb), var(--vein-base-opacity));
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: stroke 0.4s ease;
+}
+
+.vein-pulse path {
+    fill: none;
+    stroke: rgba(var(--pulse-rgb), var(--vein-pulse-opacity));
+    stroke-width: 1;
+    stroke-linecap: round;
+    stroke-dasharray: 5 45; /* period of 50 — keep the keyframe offset a multiple of this */
+    animation-name: vein-flow;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-duration: var(--dur, 6s);
+    animation-delay: var(--delay, 0s);
+    animation-direction: var(--dir, normal);
+    filter: drop-shadow(0 0 var(--vein-glow) rgba(var(--pulse-rgb), 0.75));
+    transition: stroke 0.4s ease;
+}
+
+@keyframes vein-flow {
+    to {
+        stroke-dashoffset: -1000; /* 1000 / 50 = 20, an exact multiple so the loop never jumps */
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .vein-pulse {
+        display: none;
+    }
+}
+
 /* --- Global Navbar --- */
 nav {
     padding: 1.5rem 2rem;
     display: flex;
     align-items: center;
-    gap: 1.5rem; /* Spacing between the items on the right */
+    gap: 1.5rem;
     z-index: 1000;
     position: sticky;
     top: 0;
@@ -111,17 +316,23 @@ nav {
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--card-border);
+    transition: padding 0.3s ease, box-shadow 0.3s ease;
 }
 
 .nav-brand {
-    font-weight: 700;
+    font-family: var(--font-heading);
+    font-weight: var(--fw-bold);
     font-size: 1.5rem;
     color: var(--text-main);
-    letter-spacing: 1px;
-    margin-right: auto; /* This automatically pushes everything else to the far right */
+    letter-spacing: 0.02em;
+    margin-right: auto;
+    transition: text-shadow 0.3s ease;
 }
 
-/* Flex ordering ensures perfect placement on both Desktop and Mobile */
+.nav-brand:hover {
+    text-shadow: 0 0 16px var(--primary-300);
+}
+
 #nav-links {
     order: 1;
 }
@@ -140,15 +351,32 @@ nav {
 .nav-links a {
     color: var(--text-muted);
     text-decoration: none;
-    font-weight: 500;
-    font-size: 1rem;
+    font-weight: var(--fw-medium);
+    font-size: var(--fs-body);
     transition: all 0.3s ease;
+    position: relative;
+}
+
+.nav-links a::after {
+    content: "";
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--gradient-primary);
+    border-radius: 2px;
+    transition: width 0.3s ease;
+}
+
+.nav-links a:hover::after,
+.nav-links a.active::after {
+    width: 100%;
 }
 
 .nav-links a:hover,
 .nav-links a.active {
     color: var(--text-main);
-    text-shadow: 0 0 12px rgba(255, 255, 255, 0.4);
 }
 
 .menu-toggle {
@@ -162,7 +390,7 @@ nav {
 /* Mobile Navbar */
 @media (max-width: 768px) {
     nav {
-        padding: 0.8rem 1.2rem; /* Reduced height/padding for mobile */
+        padding: 0.8rem 1.2rem;
         gap: 1.2rem;
     }
     .menu-toggle {
@@ -181,7 +409,7 @@ nav {
         border-bottom: 1px solid var(--card-border);
         gap: 1.5rem;
         text-align: center;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        box-shadow: var(--shadow-md);
     }
     .nav-links.active {
         display: flex;
@@ -211,13 +439,33 @@ nav {
     border-radius: 20px;
     padding: 2.5rem;
     transition:
-        transform 0.4s ease,
-        border-color 0.3s ease;
+        transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+        border-color 0.3s ease,
+        box-shadow 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.glass-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--primary-300), transparent);
+    opacity: 0;
+    transition: opacity 0.4s ease;
 }
 
 .glass-card:hover {
-    transform: translateY(-3px);
-    border-color: rgba(0, 242, 254, 0.3);
+    transform: translateY(-4px);
+    border-color: var(--primary-200);
+    box-shadow: var(--shadow-lg), var(--shadow-glow);
+}
+
+.glass-card:hover::before {
+    opacity: 1;
 }
 
 @media (max-width: 768px) {
@@ -240,10 +488,18 @@ nav {
     transform: translateY(0);
 }
 
+@media (prefers-reduced-motion: reduce) {
+    .animate-on-scroll {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+}
+
 /* --- Global Markdown Formatting --- */
 .markdown-content p {
     margin-bottom: 0.8rem;
-    line-height: 1.6;
+    line-height: var(--lh-body);
 }
 .markdown-content ul,
 .markdown-content ol {
@@ -255,7 +511,7 @@ nav {
 }
 .markdown-content strong {
     color: var(--text-main);
-    font-weight: 600;
+    font-weight: var(--fw-semibold);
 }
 .markdown-content em {
     font-style: italic;
@@ -265,9 +521,9 @@ nav {
     color: var(--accent-cyan);
     text-decoration: none;
     border-bottom: 1px dotted var(--accent-cyan);
+    transition: border-bottom 0.2s ease;
 }
 .markdown-content a:hover {
-    text-decoration: none;
     border-bottom-style: solid;
 }
 
@@ -275,7 +531,7 @@ nav {
 .global-loader {
     position: fixed;
     inset: 0;
-    background: var(--bg-color); /* Solid background to hide the layout shift */
+    background: var(--bg-color);
     z-index: 99999;
     display: flex;
     flex-direction: column;
@@ -294,7 +550,7 @@ nav {
 .loader-spinner {
     width: 60px;
     height: 60px;
-    border: 3px solid rgba(0, 242, 254, 0.1);
+    border: 3px solid var(--primary-100);
     border-radius: 50%;
     border-top-color: var(--accent-cyan);
     border-bottom-color: var(--accent-violet);
@@ -302,12 +558,13 @@ nav {
 }
 
 .loader-text {
+    font-family: var(--font-mono);
     margin-top: 1.5rem;
     color: var(--accent-cyan);
-    font-size: 0.85rem;
+    font-size: var(--fs-xs);
     letter-spacing: 4px;
     text-transform: uppercase;
-    font-weight: 600;
+    font-weight: var(--fw-semibold);
     animation: pulse 1.5s ease-in-out infinite;
 }
 
@@ -344,4 +601,34 @@ nav {
 .theme-btn:hover {
     color: var(--accent-cyan);
     transform: rotate(15deg);
+}
+
+/* --- Utility Animations --- */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -200% center;
+    }
+    100% {
+        background-position: 200% center;
+    }
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-8px);
+    }
 }

@@ -1,18 +1,15 @@
 /* --- Page Specific Typography --- */
 .page-title {
-    font-size: clamp(2.5rem, 4vw, 3.5rem);
-    font-weight: 700;
+    font-size: var(--fs-h1);
     margin-bottom: 3rem;
-    color: var(--text-main);
     border-bottom: 2px solid var(--card-border);
     padding-bottom: 1rem;
 }
 
 .section-title {
-    font-size: 1.8rem;
+    font-size: var(--fs-h2);
     color: var(--accent-cyan);
     margin-bottom: 1.5rem;
-    font-weight: 600;
 }
 
 /* --- General Grid --- */
@@ -24,12 +21,13 @@
 
 /* --- Research Project Cards --- */
 .research-card h3 {
-    color: var(--text-main);
-    font-size: 1.3rem;
+    font-size: var(--fs-h3);
     margin-bottom: 0.2rem;
 }
 .research-meta {
-    font-size: 0.9rem;
+    font-family: var(--font-mono);
+    font-size: var(--fs-sm);
+    letter-spacing: var(--ls-wide);
     color: var(--text-muted);
     margin-bottom: 1rem;
     display: flex;
@@ -37,11 +35,13 @@
     gap: 0.3rem;
 }
 .research-meta strong {
+    font-family: var(--font-body);
+    letter-spacing: var(--ls-normal);
     color: var(--accent-violet);
-    font-weight: 500;
+    font-weight: var(--fw-medium);
 }
 .research-desc {
-    font-size: 0.95rem;
+    font-size: var(--fs-body);
     margin-bottom: 1.5rem;
 }
 
@@ -61,8 +61,8 @@
     border: 1px solid rgba(0, 242, 254, 0.2);
     border-radius: 6px;
     text-decoration: none;
-    font-size: 0.85rem;
-    font-weight: 500;
+    font-size: var(--fs-xs);
+    font-weight: var(--fw-medium);
     transition: all 0.2s ease;
 }
 .asset-btn:hover {
@@ -87,8 +87,10 @@
     color: var(--text-main);
 }
 .qual-header .timeline {
+    font-family: var(--font-mono);
+    letter-spacing: var(--ls-wide);
     color: var(--accent-cyan);
-    font-size: 0.9rem;
+    font-size: var(--fs-sm);
 }
 
 /* Accordion Styles */
@@ -106,7 +108,7 @@
 .semester-accordion summary {
     padding: 1.2rem;
     cursor: pointer;
-    font-weight: 500;
+    font-weight: var(--fw-medium);
     color: var(--text-main);
     list-style: none;
     display: flex;
@@ -142,7 +144,7 @@
 .course-row {
     display: flex;
     justify-content: space-between;
-    font-size: 0.9rem;
+    font-size: var(--fs-sm);
     padding: 0.5rem 0;
     border-bottom: 1px solid var(--border-light); /* Swapped */
 }
@@ -150,7 +152,9 @@
     border-bottom: none;
 }
 .course-score {
-    font-weight: 600;
+    font-family: var(--font-mono);
+    letter-spacing: var(--ls-wide);
+    font-weight: var(--fw-semibold);
     color: var(--accent-violet);
 }
 
@@ -171,14 +175,16 @@
     flex-direction: column;
 }
 .score-label {
-    font-size: 0.8rem;
+    font-family: var(--font-mono);
+    font-size: var(--fs-2xs);
     color: var(--text-muted);
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: var(--ls-wide);
 }
 .score-value {
+    font-family: var(--font-mono);
     font-size: 1.4rem;
-    font-weight: 700;
+    font-weight: var(--fw-bold);
     color: var(--accent-cyan);
 }
 
@@ -194,8 +200,8 @@
     padding: 0.4rem 0.8rem;
     border-radius: 6px;
     cursor: pointer;
-    font-size: 0.85rem;
-    font-family: "Poppins", sans-serif;
+    font-size: var(--fs-sm);
+    font-family: var(--font-body);
     transition: all 0.2s;
     display: inline-flex;
     align-items: center;
@@ -211,9 +217,9 @@
     opacity: 0;
     transition: all 0.4s ease;
     margin-top: 0.8rem;
-    font-size: 0.95rem;
+    font-size: var(--fs-body);
     color: var(--text-muted);
-    line-height: 1.6;
+    line-height: var(--lh-body);
 }
 .research-desc.expanded {
     max-height: 2000px;
@@ -252,14 +258,9 @@
 }
 .overall-score .score-label {
     display: block;
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: var(--text-muted);
 }
 .overall-score .score-value {
     font-size: 1.2rem;
-    font-weight: 700;
     color: var(--accent-violet);
 }
 

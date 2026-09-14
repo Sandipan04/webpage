@@ -66,8 +66,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 });
 
-// KEEP your existing renderClubs() and renderVolunteering() functions exactly the same!
-
 function renderClubs(clubs) {
   const container = document.getElementById("clubs-container");
   if (!container) return;
@@ -75,16 +73,15 @@ function renderClubs(clubs) {
     .map(
       (club) => `
       <div class="club-section animate-on-scroll" id="${makeSlug(club.name)}">
-            <div class="club-header" style="align-items: flex-start;">
-                <h3>${club.name}</h3>
-                <div class="club-meta" style="flex-direction: column; gap: 0.2rem; text-align: right;">
+            <div class="club-header">
+                <h3 class="font-display">${club.name}</h3>
+                <div class="club-meta">
                     ${(club.roles || [])
                       .map(
                         (role) => `
-                        <div>
-                            <span class="role" style="color: var(--accent-cyan); font-weight: 500;">${role.title}</span>
-                            <span style="color: var(--text-muted); margin: 0 0.5rem;">|</span>
-                            <span class="timeline" style="color: var(--text-muted); font-size: 0.9rem;">${role.timeline}</span>
+                        <div class="role-pill">
+                            <span class="role-title">${role.title}</span>
+                            <span class="role-timeline">${role.timeline}</span>
                         </div>
                     `,
                       )
@@ -97,16 +94,14 @@ function renderClubs(clubs) {
                 <div class="activity-grid">
                     ${club.activities
                       .map((act) => {
-                        // 1. Parse the markdown first
                         const parsedDesc = act.description
                           ? typeof marked !== "undefined"
                             ? marked.parse(act.description)
                             : act.description
                           : "";
 
-                        // 2. Return the formatted HTML for the card
                         return `
-                        <div class="glass-card activity-card">
+                        <div class="glass-card activity-card animate-on-scroll">
                             <div><span class="activity-type-tag">${act.type}</span></div>
                             <h4>${act.title}</h4>
                             <div class="activity-meta">
@@ -152,7 +147,7 @@ function renderClubs(clubs) {
                       .join("")}
                 </div>
             `
-                : '<p style="color: var(--text-muted); font-size: 0.95rem; font-style: italic;">No specific highlights listed yet.</p>'
+                : '<p class="empty-state">No specific highlights listed yet.</p>'
             }
         </div>
     `,
@@ -164,25 +159,26 @@ function renderVolunteering(volunteering) {
   const grid = document.getElementById("volunteering-grid");
   if (!grid) return;
   if (volunteering.length === 0) {
-    grid.innerHTML =
-      '<p style="color: var(--text-muted);">No volunteering records found.</p>';
+    grid.innerHTML = '<p class="empty-state">No volunteering records found.</p>';
     return;
   }
 
   grid.innerHTML = volunteering
     .map((vol) => {
-      // 1. Parse markdown
       const parsedDesc = vol.description
         ? typeof marked !== "undefined"
           ? marked.parse(vol.description)
           : vol.description
         : "";
 
-      // 2. Return the upgraded card with toggle and assets
       return `
-        <div class="glass-card activity-card">
-            <h4 style="color: var(--text-main); margin-bottom: 0.3rem;">${vol.event_name}</h4>
-            <div class="activity-meta"><span>${vol.subtitle} | ${vol.date}</span></div>
+        <div class="glass-card activity-card volunteering-card animate-on-scroll">
+            <div><span class="activity-type-tag volunteering-type-tag">Volunteering</span></div>
+            <h4 class="volunteering-title">${vol.event_name}</h4>
+            <div class="activity-meta volunteering-meta">
+                <span>${vol.subtitle}</span>
+                <span>${vol.date}</span>
+            </div>
 
             ${
               parsedDesc

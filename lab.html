@@ -3,12 +3,12 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="description" content="The Lab — hobby projects, hardware configurations, and experimental builds by Sandipan Samanta." />
         <title>The Lab | Sandipan Samanta</title>
 
-        <link
-            href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-            rel="stylesheet"
-        />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
         <link
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
@@ -20,9 +20,9 @@
     <body>
         <div id="global-loader" class="global-loader">
             <div class="loader-spinner"></div>
-            <div class="loader-text">Initializing</div>
+            <div class="loader-text">Loading</div>
         </div>
-        <canvas id="network-canvas"></canvas>
+        <div id="network-canvas"></div>
 
         <nav id="main-nav">
             <div class="nav-brand">SS.</div>
@@ -37,8 +37,7 @@
                 <h1 class="page-title">The Lab</h1>
                 <p class="page-subtitle">
                     A collection of hobby projects, hardware configurations, and
-                    experimental hypotheses (even the ones that proved me
-                    wrong).
+                    experimental hypotheses (even the ones that proved me wrong).
                 </p>
             </div>
 
@@ -46,12 +45,8 @@
             <div class="lab-filters animate-on-scroll" id="lab-filters">
                 <span class="filter-btn active" data-filter="all">All</span>
                 <span class="filter-btn" data-filter="active">Active</span>
-                <span class="filter-btn" data-filter="experimental"
-                    >Experimental</span
-                >
-                <span class="filter-btn" data-filter="completed"
-                    >Completed</span
-                >
+                <span class="filter-btn" data-filter="experimental">Experimental</span>
+                <span class="filter-btn" data-filter="completed">Completed</span>
                 <span class="filter-btn" data-filter="archived">Archived</span>
             </div>
 
@@ -59,7 +54,10 @@
             <section id="lab-grid" class="lab-grid animate-on-scroll"></section>
         </main>
 
+        <footer id="site-footer" class="site-footer"></footer>
+
         <script src="js/api.js"></script>
+        <script src="js/background.js"></script>
         <script src="js/global.js"></script>
         <script src="js/lab.js"></script>
     </body>
