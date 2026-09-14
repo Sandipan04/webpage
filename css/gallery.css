@@ -41,13 +41,21 @@
     margin-bottom: 0.3rem;
 }
 
+.gallery-title {
+    font-size: var(--fs-h4); /* Shrunk down from the larger default */
+    margin-bottom: 0.5rem;
+}
+
 .gallery-meta {
     font-family: var(--font-mono);
     font-size: var(--fs-sm);
     letter-spacing: var(--ls-wide);
-    color: var(--accent-cyan);
-    margin-bottom: 0.8rem;
-    font-weight: var(--fw-medium);
+    color: var(--text-muted); /* Softer color so it doesn't distract from the images */
+    margin-top: 1rem;
+    margin-bottom: 0;
+    text-align: right; /* Aligns neatly to the bottom right of the canvas */
+    border-top: 1px solid var(--border-light);
+    padding-top: 0.8rem;
 }
 
 .gallery-desc {

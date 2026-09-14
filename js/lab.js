@@ -1,5 +1,3 @@
-// lab.js
-
 let allProjects = [];
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -10,19 +8,28 @@ document.addEventListener('DOMContentLoaded', () => {
 async function fetchLabData() {
     try {
         const response = await window.fetchAPI('/lab');
-        if (response.success && response.data) {
-            allProjects = response.data.sort((a, b) => b.id - a.id);
+        let projects = [];
+        
+        // Handle both object {data: []} and raw array [] API returns
+        if (response && response.success && response.data) {
+            projects = response.data;
+        } else if (Array.isArray(response)) {
+            projects = response;
+        }
+
+        if (projects.length > 0) {
+            allProjects = projects.sort((a, b) => (b.sort_order || b.id) - (a.sort_order || a.id));
             renderLabGrid(allProjects);
-            if (typeof window.dismissLoader === 'function') {
-                window.dismissLoader();
-            }
         } else {
-            console.error('Failed to load lab data:', response);
             renderEmptyState();
         }
     } catch (error) {
         console.error('Error fetching lab data:', error);
         renderEmptyState();
+    } finally {
+        // Manually hide loader regardless of success or failure
+        const loader = document.getElementById('global-loader');
+        if (loader) loader.classList.add('hidden');
     }
 }
 
@@ -59,12 +66,8 @@ function getStatusClass(status) {
 function parseJSONSafely(str, fallback = []) {
     if (!str) return fallback;
     try {
-        if (typeof str === 'string') {
-            return JSON.parse(str);
-        }
-        return str;
+        return typeof str === 'string' ? JSON.parse(str) : str;
     } catch (e) {
-        console.error('Error parsing JSON:', e, str);
         return fallback;
     }
 }
@@ -82,10 +85,8 @@ function renderLabGrid(projects) {
     
     projects.forEach((project, index) => {
         const delay = index * 100;
-        
         const tags = parseJSONSafely(project.tags_json, []);
         const links = parseJSONSafely(project.links_json, []);
-        
         const statusStr = project.status || 'Archived';
         const statusClass = getStatusClass(statusStr);
         
@@ -93,43 +94,13 @@ function renderLabGrid(projects) {
         card.className = 'lab-card glass-card animate-on-scroll';
         card.style.animationDelay = `${delay}ms`;
         
-        // Image or fallback
-        let imageHtml = '';
-        if (project.image_url) {
-            imageHtml = `<img src="${project.image_url}" alt="${project.title}" class="lab-card-img" loading="lazy">`;
-        } else {
-            imageHtml = `
-                <div class="lab-card-fallback">
-                    <i class="fa-solid fa-flask"></i>
-                </div>
-            `;
-        }
+        let imageHtml = project.image_url 
+            ? `<img src="${project.image_url}" alt="${project.title}" class="lab-card-img" loading="lazy">`
+            : `<div class="lab-card-fallback"><i class="fa-solid fa-flask"></i></div>`;
         
-        // Tags
-        let tagsHtml = '';
-        if (tags && tags.length > 0) {
-            tagsHtml = `
-                <div class="lab-card-tags">
-                    ${tags.map(t => `<span class="lab-tag">${t}</span>`).join('')}
-                </div>
-            `;
-        }
+        let tagsHtml = tags.length > 0 ? `<div class="lab-card-tags">${tags.map(t => `<span class="lab-tag">${t}</span>`).join('')}</div>` : '';
+        let linksHtml = links.length > 0 ? `<div class="lab-card-footer">${links.map(l => `<a href="${l.url}" target="_blank" class="lab-card-link"><i class="${l.icon || 'fa-solid fa-link'}"></i> ${l.label || 'View'}</a>`).join('')}</div>` : '';
         
-        // Links
-        let linksHtml = '';
-        if (links && links.length > 0) {
-            linksHtml = `
-                <div class="lab-card-footer">
-                    ${links.map(link => {
-                        const icon = link.icon || 'fa-solid fa-link';
-                        const label = link.label || 'View';
-                        return `<a href="${link.url}" target="_blank" rel="noopener noreferrer" class="lab-card-link"><i class="${icon}"></i> ${label}</a>`;
-                    }).join('')}
-                </div>
-            `;
-        }
-        
-        // Markdown parsing for description
         let descHtml = project.description || '';
         if (typeof window.marked !== 'undefined' && window.marked.parse) {
             descHtml = window.marked.parse(descHtml);
@@ -146,23 +117,19 @@ function renderLabGrid(projects) {
             <div class="lab-card-content">
                 <h3 class="lab-card-title">${project.title || 'Untitled Project'}</h3>
                 ${tagsHtml}
-                <div class="lab-card-desc markdown-content">
-                    ${descHtml}
-                </div>
+                <div class="lab-card-desc markdown-content">${descHtml}</div>
                 ${linksHtml}
             </div>
         `;
-        
         grid.appendChild(card);
     });
     
-    initScrollObserver();
+    if (typeof initScrollObserver === 'function') initScrollObserver();
 }
 
 function renderEmptyState() {
     const grid = document.getElementById('lab-grid');
     if (!grid) return;
-    
     grid.innerHTML = `
         <div class="lab-empty animate-on-scroll">
             <i class="fa-solid fa-vial-circle-check"></i>
@@ -170,24 +137,4 @@ function renderEmptyState() {
             <p>Try adjusting your filters or check back later.</p>
         </div>
     `;
-}
-
-function initScrollObserver() {
-    if (typeof IntersectionObserver === 'undefined') return;
-    
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-                observer.unobserve(entry.target);
-            }
-        });
-    }, {
-        threshold: 0.1,
-        rootMargin: "0px 0px -50px 0px"
-    });
-
-    document.querySelectorAll('.animate-on-scroll').forEach(el => {
-        observer.observe(el);
-    });
 }
